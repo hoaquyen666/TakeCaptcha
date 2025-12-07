@@ -1577,11 +1577,6 @@ public class Panel : IActionListener, IChatable
 							{
 								cp.maxStarSlot = (sbyte)item.itemOption[k].param;
 							}
-							else if (item.itemOption[k].optionTemplate.color > 0)
-							{
-								string text3 = text;
-								text = text3 + "\n|" + item.itemOption[k].optionTemplate.color + "|1|" + empty;
-							}
 							else
 							{
 								text = text + "\n|1|1|" + empty;
@@ -1604,16 +1599,16 @@ public class Panel : IActionListener, IChatable
 			}
 			if (currItem.template.strRequire > 1)
 			{
-				string text4 = mResources.pow_request + ": " + currItem.template.strRequire;
+				string text3 = mResources.pow_request + ": " + currItem.template.strRequire;
 				if (currItem.template.strRequire > Char.myCharz().cPower)
 				{
-					text = text + "\n|3|1|" + text4;
-					string text3 = text;
-					text = text3 + "\n|3|1|" + mResources.your_pow + ": " + Char.myCharz().cPower;
+					text = text + "\n|3|1|" + text3;
+					string text4 = text;
+					text = text4 + "\n|3|1|" + mResources.your_pow + ": " + Char.myCharz().cPower;
 				}
 				else
 				{
-					text = text + "\n|6|1|" + text4;
+					text = text + "\n|6|1|" + text3;
 				}
 			}
 			else
@@ -6629,7 +6624,6 @@ public class Panel : IActionListener, IChatable
 		case 21:
 			if (currentTabIndex == 0)
 			{
-				Debug.LogWarning(">>>head:" + Char.myPetz().avatarz());
 				SmallImage.drawSmallImage(g, Char.myPetz().avatarz(), X + 25, 50, 0, 33);
 				paintPetInfo(g);
 			}

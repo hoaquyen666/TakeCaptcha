@@ -14,9 +14,9 @@ public class GameMidlet
 
 	public static int LANGUAGE;
 
-	public static string VERSION = "2.4.7";
+	public static string VERSION = "2.4.6";
 
-	public static int intVERSION = 247;
+	public static int intVERSION = 246;
 
 	public static GameCanvas gameCanvas;
 

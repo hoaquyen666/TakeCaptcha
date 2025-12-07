@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using UnityEngine;
@@ -179,8 +179,25 @@ public class Rms
 
 	public static string GetiPhoneDocumentsPath()
 	{
-		return Application.persistentDataPath;
-	}
+        //return Application.persistentDataPath;
+        try
+        {
+            string path = "RMS";
+
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+				return path;
+            }
+
+            return path;
+			//return Application.persistentDataPath;
+        }
+        catch (Exception)
+        {
+            return "";
+        }
+    }
 
 	private static void __saveRMS(string filename, sbyte[] data)
 	{

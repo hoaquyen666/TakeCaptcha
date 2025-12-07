@@ -5,6 +5,4 @@ public class ItemOptionTemplate
 	public string name;
 
 	public int type;
-
-	public int color;
 }

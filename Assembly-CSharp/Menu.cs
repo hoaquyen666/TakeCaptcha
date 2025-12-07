@@ -101,7 +101,6 @@ public class Menu
 
 	public void startAt(MyVector menuItems, int pos)
 	{
-		Res.outz("startAt MENU");
 		if (showMenu)
 		{
 			return;

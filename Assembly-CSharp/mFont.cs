@@ -158,20 +158,6 @@ public class mFont
 
 	private string pathImage;
 
-	public static sbyte cl__white;
-
-	public static sbyte cl__yellow;
-
-	public static sbyte cl__yellowSmall;
-
-	public static sbyte cl_dark = 0;
-
-	public static sbyte cl_green = 1;
-
-	public static sbyte cl__blue = 2;
-
-	public static sbyte cl_red = 3;
-
 	public mFont(string strFont, string pathImage, string pathData, int space)
 	{
 		try
@@ -855,28 +841,5 @@ public class mFont
 
 	public void freeImage()
 	{
-	}
-
-	public static mFont GetFont(sbyte colorCode)
-	{
-		switch (colorCode)
-		{
-		case 0:
-			return tahoma_7b_dark;
-		case 1:
-			return tahoma_7b_green;
-		case 2:
-			return tahoma_7b_blue;
-		case 3:
-			return tahoma_7_red;
-		case 4:
-			return tahoma_7_green;
-		case 5:
-			return tahoma_7_blue;
-		case 7:
-			return tahoma_7b_red;
-		default:
-			return tahoma_7;
-		}
 	}
 }

@@ -1777,8 +1777,6 @@ public class Controller : IMessageHandler
 				}
 				InfoDlg.hide();
 				Char.myPetz().head = msg.reader().readShort();
-				Debug.LogWarning(">>>cmd head:" + Char.myPetz().avatarz());
-				Res.outz("tra ve head= " + Char.myCharz().head);
 				Char.myPetz().setDefaultPart();
 				int num53 = msg.reader().readUnsignedByte();
 				Res.outz("num body = " + num53);
@@ -6238,18 +6236,6 @@ public class Controller : IMessageHandler
 					GameScr.gI().iOptionTemplates[i].name = d.readUTF();
 					GameScr.gI().iOptionTemplates[i].type = d.readByte();
 				}
-				try
-				{
-					short num = d.readShort();
-					for (int j = 0; j < num; j++)
-					{
-						short num2 = d.readShort();
-						GameScr.gI().iOptionTemplates[num2].color = d.readUnsignedByte();
-					}
-				}
-				catch (Exception)
-				{
-				}
 				if (isSave)
 				{
 					d.reset();
@@ -6261,10 +6247,10 @@ public class Controller : IMessageHandler
 			else if (type == 1)
 			{
 				ItemTemplates.itemTemplates.clear();
-				int num3 = d.readShort();
-				for (int k = 0; k < num3; k++)
+				int num = d.readShort();
+				for (int j = 0; j < num; j++)
 				{
-					ItemTemplate it = new ItemTemplate((short)k, d.readByte(), d.readByte(), d.readUTF(), d.readUTF(), d.readByte(), d.readInt(), d.readShort(), d.readShort(), d.readBoolean());
+					ItemTemplate it = new ItemTemplate((short)j, d.readByte(), d.readByte(), d.readUTF(), d.readUTF(), d.readByte(), d.readInt(), d.readShort(), d.readShort(), d.readBoolean());
 					ItemTemplates.add(it);
 				}
 				if (isSave)
@@ -6304,12 +6290,12 @@ public class Controller : IMessageHandler
 					}
 					try
 					{
-						int num4 = d.readShort();
-						Char.Arr_Head_FlyMove = new short[num4];
-						for (int l = 0; l < num4; l++)
+						int num2 = d.readShort();
+						Char.Arr_Head_FlyMove = new short[num2];
+						for (int k = 0; k < num2; k++)
 						{
-							short num5 = d.readShort();
-							Char.Arr_Head_FlyMove[l] = num5;
+							short num3 = d.readShort();
+							Char.Arr_Head_FlyMove[k] = num3;
 						}
 						if (isSave)
 						{
@@ -6328,9 +6314,9 @@ public class Controller : IMessageHandler
 				}
 			}
 		}
-		catch (Exception ex3)
+		catch (Exception ex2)
 		{
-			ex3.ToString();
+			ex2.ToString();
 		}
 	}
 

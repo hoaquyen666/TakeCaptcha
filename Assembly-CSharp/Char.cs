@@ -3741,61 +3741,83 @@ public class Char : IMapObject
 
 	public void updateSuperEff()
 	{
-		if (isCopy || isFusion || isSetPos || isPet || isMiniPet || isMonkey == 1 || (me && !isPaintAura2 && idAuraEff > -1) || (!me && idAuraEff > -1))
+		if (isCopy || isFusion || isSetPos || isPet || isMiniPet || isMonkey == 1)
+		{
+			return;
+		}
+		if (me)
+		{
+			if (!isPaintAura2 && idAuraEff > -1)
+			{
+				return;
+			}
+		}
+		else if (idAuraEff > -1)
 		{
 			return;
 		}
 		ty++;
-		if (clevel < 9 || clevel >= 14)
+		if (clevel >= 14)
 		{
 			return;
 		}
-		if ((ty == 40 || ty == 50) && !GameCanvas.lowGraphic)
+		if (clevel >= 9 && !GameCanvas.lowGraphic && (ty == 40 || ty == 50))
 		{
-			GameCanvas.gI().startDust(-1, cx + 8, cy);
+			GameCanvas.gI().startDust(-1, cx - -8, cy);
 			GameCanvas.gI().startDust(1, cx - 8, cy);
 			addDustEff(1);
 		}
-		if (ty <= 50)
+		if (ty <= 50 || clevel < 9)
 		{
 			return;
 		}
-		switch (cgender)
+		int num = 0;
+		if (cgender == 0)
 		{
-		case 0:
-			if (GameCanvas.gameTick % 25 == 0)
+			if (clevel >= 13)
 			{
-				ServerEffect.addServerEffect(114, this, 1);
+				if (GameCanvas.gameTick % 25 == 0)
+				{
+					num = 114;
+					ServerEffect.addServerEffect(num, this, 1);
+				}
+				if (GameCanvas.gameTick % 4 == 0)
+				{
+					num = 132;
+					ServerEffect.addServerEffect(num, this, 1);
+				}
 			}
-			if (clevel >= 13 && GameCanvas.gameTick % 4 == 0)
+			else if (GameCanvas.gameTick % 25 == 0)
 			{
-				ServerEffect.addServerEffect(132, this, 1);
+				num = 173 + (clevel - 10);
+				ServerEffect.addServerEffect(num, this, 1);
 			}
-			break;
-		case 1:
+		}
+		if (cgender == 1)
+		{
 			if (GameCanvas.gameTick % 4 == 0)
 			{
-				ServerEffect.addServerEffect(132, this, 1);
+				num = 132;
+				ServerEffect.addServerEffect(num, this, 1);
 			}
-			if (clevel >= 13 && GameCanvas.gameTick % 12 == 0)
+			if (clevel >= 13 && GameCanvas.gameTick % 7 == 0)
 			{
-				ServerEffect.addServerEffect(114, this, 1);
+				num = 131;
+				ServerEffect.addServerEffect(num, this, 1);
+			}
+		}
+		if (cgender == 2)
+		{
+			if (GameCanvas.gameTick % 7 == 0)
+			{
+				num = 131;
+				ServerEffect.addServerEffect(num, this, 1);
 			}
 			if (clevel >= 13 && GameCanvas.gameTick % 25 == 0)
 			{
-				ServerEffect.addServerEffect(131, this, 1);
+				num = 114;
+				ServerEffect.addServerEffect(num, this, 1);
 			}
-			break;
-		case 2:
-			if (GameCanvas.gameTick % 4 == 0)
-			{
-				ServerEffect.addServerEffect(131, this, 1);
-			}
-			if (clevel >= 13 && GameCanvas.gameTick % 25 == 0)
-			{
-				ServerEffect.addServerEffect(114, this, 1);
-			}
-			break;
 		}
 	}
 
