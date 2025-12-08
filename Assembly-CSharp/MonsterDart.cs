@@ -26,9 +26,9 @@ public class MonsterDart : Effect2
 
 	public bool isSpeedUp;
 
-	public long dame;
+	public int dame;
 
-	public long dameMp;
+	public int dameMp;
 
 	public Char c;
 
@@ -59,7 +59,7 @@ public class MonsterDart : Effect2
 		0, 1, 2, 1, 0
 	};
 
-	public MonsterDart(int x, int y, bool isBoss, long dame, long dameMp, Char c, int dartType)
+	public MonsterDart(int x, int y, bool isBoss, int dame, int dameMp, Char c, int dartType)
 	{
 		info = GameScr.darts[dartType];
 		this.x = x;
@@ -76,7 +76,7 @@ public class MonsterDart : Effect2
 		}
 	}
 
-	public MonsterDart(int x, int y, bool isBoss, long dame, long dameMp, int xTo, int yTo, int dartType)
+	public MonsterDart(int x, int y, bool isBoss, int dame, int dameMp, int xTo, int yTo, int dartType)
 	{
 		info = GameScr.darts[dartType];
 		this.x = x;
@@ -102,12 +102,12 @@ public class MonsterDart : Effect2
 		vy = va * Res.sin(angle) >> 10;
 	}
 
-	public static void addMonsterDart(int x, int y, bool isBoss, long dame, long dameMp, Char c, int dartType)
+	public static void addMonsterDart(int x, int y, bool isBoss, int dame, int dameMp, Char c, int dartType)
 	{
 		Effect2.vEffect2.addElement(new MonsterDart(x, y, isBoss, dame, dameMp, c, dartType));
 	}
 
-	public static void addMonsterDart(int x, int y, bool isBoss, long dame, long dameMp, int xTo, int yTo, int dartType)
+	public static void addMonsterDart(int x, int y, bool isBoss, int dame, int dameMp, int xTo, int yTo, int dartType)
 	{
 		Effect2.vEffect2.addElement(new MonsterDart(x, y, isBoss, dame, dameMp, xTo, yTo, dartType));
 	}

@@ -97,7 +97,7 @@ public class PlayerDart
 			{
 				if (charBelong.charFocus != null && charBelong.charFocus.me)
 				{
-					charBelong.charFocus.doInjure(charBelong.charFocus.damHP, 0L, charBelong.charFocus.isCrit, charBelong.charFocus.isMob);
+					charBelong.charFocus.doInjure(charBelong.charFocus.damHP, 0, charBelong.charFocus.isCrit, charBelong.charFocus.isMob);
 				}
 				endMe();
 				return;
@@ -162,25 +162,12 @@ public class PlayerDart
 			{
 				charBelong.isLockMove = false;
 			}
-			if (charBelong.cgender == 2)
-			{
-				int num = -1;
-				num = ((!charBelong.me) ? charBelong.skillTemplateId : Char.myCharz().myskill.skillId);
-				if (num < 77 || num > 83)
-				{
-					GameScr.gI().activeSuperPower(x, y);
-				}
-			}
-			else
-			{
-				GameScr.gI().activeSuperPower(x, y);
-			}
+			GameScr.gI().activeSuperPower(x, y);
 		}
 		charBelong.dart = null;
 		charBelong.isCreateDark = false;
 		charBelong.skillPaint = null;
 		charBelong.skillPaintRandomPaint = null;
-		charBelong.stopUseChargeSkill();
 	}
 
 	public void paint(mGraphics g)

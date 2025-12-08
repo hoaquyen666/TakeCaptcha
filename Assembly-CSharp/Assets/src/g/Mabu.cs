@@ -28,7 +28,7 @@ namespace Assets.src.g
 
 		private Char[] charAttack;
 
-		private long[] damageAttack;
+		private int[] damageAttack;
 
 		private int dx;
 
@@ -127,7 +127,7 @@ namespace Assets.src.g
 			}
 		}
 
-		public void setSkill(sbyte id, short x, short y, Char[] charHit, long[] damageHit)
+		public void setSkill(sbyte id, short x, short y, Char[] charHit, int[] damageHit)
 		{
 			skillID = id;
 			xTo = x;
@@ -190,7 +190,7 @@ namespace Assets.src.g
 						cdir = lastDir;
 						for (int i = 0; i < charAttack.Length; i++)
 						{
-							charAttack[i].doInjure(damageAttack[i], 0L, false, false);
+							charAttack[i].doInjure(damageAttack[i], 0, false, false);
 						}
 					}
 				}
@@ -211,7 +211,7 @@ namespace Assets.src.g
 				{
 					cx = xTo;
 					cy = yTo;
-					charAttack[pIndex].doInjure(damageAttack[pIndex], 0L, false, false);
+					charAttack[pIndex].doInjure(damageAttack[pIndex], 0, false, false);
 					pIndex++;
 					if (pIndex == charAttack.Length)
 					{

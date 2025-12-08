@@ -242,7 +242,7 @@ public class InfoMe
 				return;
 			}
 			info.info.curr = mSystem.currentTimeMillis();
-			if (info.info.curr - info.info.last >= 1000)
+			if (info.info.curr - info.info.last >= 100)
 			{
 				info.info.last = mSystem.currentTimeMillis();
 				info.info.timeCount--;
@@ -287,7 +287,7 @@ public class InfoMe
 			else
 			{
 				info.info.curr = mSystem.currentTimeMillis();
-				if (info.info.curr - info.info.last >= 1000)
+				if (info.info.curr - info.info.last >= 100)
 				{
 					info.info.last = mSystem.currentTimeMillis();
 					info.info.timeCount--;

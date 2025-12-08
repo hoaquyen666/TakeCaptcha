@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public class LoginScr : mScreen, IActionListener
 {
@@ -32,8 +31,6 @@ public class LoginScr : mScreen, IActionListener
 	public Command cmdMenu;
 
 	public Command cmdBackFromRegister;
-
-	public Command cmdBack;
 
 	public string listFAQ = string.Empty;
 
@@ -202,7 +199,6 @@ public class LoginScr : mScreen, IActionListener
 		cmdCheck = new Command(mResources.remember, this, 2001, null);
 		cmdRes = new Command(mResources.register, this, 2002, null);
 		cmdBackFromRegister = new Command(mResources.CANCEL, this, 10021, null);
-		cmdBack = new Command(mResources.BACK, this, 101, null);
 		left = (cmdMenu = new Command(mResources.MENU, this, 2003, null));
 		freeAreaHeight = tfUser.y - 2 * tfUser.height;
 		if (GameCanvas.isTouch)
@@ -218,8 +214,6 @@ public class LoginScr : mScreen, IActionListener
 			cmdBackFromRegister.y = yLog + 110;
 			cmdRes.x = GameCanvas.w / 2 - 84;
 			cmdRes.y = cmdMenu.y;
-			cmdBack.x = 2;
-			cmdBack.y = GameCanvas.h - mScreen.cmdH;
 		}
 		wP = 170;
 		hP = ((!isRes) ? 100 : 110);
@@ -298,7 +292,6 @@ public class LoginScr : mScreen, IActionListener
 			tfUser.isFocus = false;
 		}
 		GameCanvas.loadBG(0);
-		left = new Command(mResources.BACK, this, 101, null);
 		base.switchToMe();
 	}
 
@@ -490,16 +483,15 @@ public class LoginScr : mScreen, IActionListener
 		{
 			GameCanvas.connect();
 		}
+		Res.outz("ccccccc " + text + " " + text2 + " " + GameMidlet.VERSION + " " + (sbyte)(isLogin2 ? 1 : 0));
 		Service.gI().login(text, text2, GameMidlet.VERSION, (sbyte)(isLogin2 ? 1 : 0));
-		Res.outz(Controller.isEXTRA_LINK + " = Controller.isEXTRA_LINK " + text + " " + text2 + " " + GameMidlet.VERSION + " " + (sbyte)(isLogin2 ? 1 : 0));
-		Rms.saveRMSInt(ServerListScreen.RMS_svselect, ServerListScreen.ipSelect);
 		if (Session_ME.connected)
 		{
 			GameCanvas.startWaitDlg();
 		}
 		else
 		{
-			GameCanvas.startOK(mResources.maychutathoacmatsong + " [0]", 8884, null);
+			GameCanvas.startOKDlg(mResources.maychutathoacmatsong);
 		}
 		focus = 0;
 		if (!isLogin2)
@@ -527,6 +519,20 @@ public class LoginScr : mScreen, IActionListener
 
 	public override void update()
 	{
+		if (Main.isWindowsPhone && isRegistering)
+		{
+			if (t < 0)
+			{
+				GameCanvas.endDlg();
+				Session_ME.gI().close();
+				GameCanvas.serverScreen.switchToMe();
+				isRegistering = false;
+			}
+			else
+			{
+				t--;
+			}
+		}
 		if (timeLogin > 0)
 		{
 			GameCanvas.startWaitDlg();
@@ -632,10 +638,6 @@ public class LoginScr : mScreen, IActionListener
 				center = cmdOK;
 				left = cmdFogetPass;
 			}
-			if (cmdBack != null && cmdBack.isPointerPressInside())
-			{
-				cmdBack.performAction();
-			}
 		}
 		else if (isRes)
 		{
@@ -718,6 +720,10 @@ public class LoginScr : mScreen, IActionListener
 		{
 			mFont.tahoma_7_white.drawString(g, ServerListScreen.linkweb, GameCanvas.w - 2, 2, 1, mFont.tahoma_7_grey);
 		}
+		if (ChatPopup.currChatPopup != null || ChatPopup.serverChatPopUp != null)
+		{
+			return;
+		}
 		if (GameCanvas.currentDialog == null)
 		{
 			int h = 105;
@@ -756,7 +762,6 @@ public class LoginScr : mScreen, IActionListener
 			}
 		}
 		base.paint(g);
-		cmdBack.paint(g);
 	}
 
 	public override void updateKey()
@@ -875,12 +880,8 @@ public class LoginScr : mScreen, IActionListener
 
 	public void perform(int idAction, object p)
 	{
-		Debug.LogError(">>>>Loginscr perform: " + idAction);
 		switch (idAction)
 		{
-		case 101:
-			GameCanvas.serverScreen.switchToMe();
-			break;
 		case 13:
 			switch (mSystem.clientType)
 			{
@@ -980,12 +981,7 @@ public class LoginScr : mScreen, IActionListener
 		case 2008:
 			Rms.saveRMSString("acc", tfUser.getText().Trim());
 			Rms.saveRMSString("pass", tfPass.getText().Trim());
-			if (ServerListScreen.isNewUI)
-			{
-				Controller.isEXTRA_LINK = false;
-				GameCanvas.serverScreen.Login_New();
-			}
-			else if (ServerListScreen.loadScreen)
+			if (ServerListScreen.loadScreen)
 			{
 				GameCanvas.serverScreen.switchToMe();
 			}
@@ -1035,8 +1031,6 @@ public class LoginScr : mScreen, IActionListener
 			GameMidlet.isBackWindowsPhone = true;
 		}
 		GameCanvas.instance.resetToLoginScr = false;
-		ServerListScreen.isAutoLogin = false;
-		ServerScr.isShowSv_HaveChar = false;
-		GameCanvas.instance.doResetToLoginScr(GameCanvas.serverScreen);
+		GameCanvas.instance.doResetToLoginScr(GameCanvas.loginScr);
 	}
 }

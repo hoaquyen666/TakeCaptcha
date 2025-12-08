@@ -54,7 +54,7 @@ public class NewBoss : Mob, IMapObject
 
 	private Char[] charAttack;
 
-	private long[] dameHP;
+	private int[] dameHP;
 
 	private sbyte type;
 
@@ -137,7 +137,7 @@ public class NewBoss : Mob, IMapObject
 
 	public const sbyte typeEff = 16;
 
-	public NewBoss(int id, short px, short py, int templateID, long hp, long maxHp, int s)
+	public NewBoss(int id, short px, short py, int templateID, int hp, int maxHp, int s)
 	{
 		mobId = id;
 		x = (xFirst = px + 20);
@@ -364,7 +364,7 @@ public class NewBoss : Mob, IMapObject
 		flyUp = true;
 	}
 
-	public void setAttack(Char[] cAttack, long[] dame, sbyte type, sbyte dir)
+	public void setAttack(Char[] cAttack, int[] dame, sbyte type, sbyte dir)
 	{
 		charAttack = cAttack;
 		dameHP = dame;
@@ -389,7 +389,7 @@ public class NewBoss : Mob, IMapObject
 		{
 			for (int i = 0; i < charAttack.Length; i++)
 			{
-				charAttack[i].doInjure(dameHP[i], 0L, false, false);
+				charAttack[i].doInjure(dameHP[i], 0, false, false);
 				ServerEffect.addServerEffect(frameArr[16][type - 1], charAttack[i].cx, charAttack[i].cy, 1);
 			}
 		}
@@ -567,9 +567,9 @@ public class NewBoss : Mob, IMapObject
 
 	public new void startDie()
 	{
-		hp = 0L;
+		hp = 0;
 		injureThenDie = true;
-		hp = 0L;
+		hp = 0;
 		status = 1;
 		p1 = -3;
 		p2 = -dir;

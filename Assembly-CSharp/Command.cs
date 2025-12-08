@@ -18,8 +18,6 @@ public class Command
 
 	public Image imgFocus;
 
-	public Image imgBtn;
-
 	public int x;
 
 	public int y;
@@ -53,8 +51,6 @@ public class Command
 	public static Image btn1right;
 
 	public bool cmdClosePanel;
-
-	public bool isPaintNew;
 
 	public Command(string caption, IActionListener actionListener, int action, object p, int x, int y)
 	{
@@ -172,37 +168,34 @@ public class Command
 		}
 		if (caption != string.Empty)
 		{
-			if (!isFocus)
+			if (type == 1)
 			{
-				paintOngMau(btn0left, btn0mid, btn0right, x, y, w, g);
+				if (!isFocus)
+				{
+					paintOngMau(btn0left, btn0mid, btn0right, x, y, 160, g);
+				}
+				else
+				{
+					paintOngMau(btn1left, btn1mid, btn1right, x, y, 160, g);
+				}
+			}
+			else if (!isFocus)
+			{
+				paintOngMau(btn0left, btn0mid, btn0right, x, y, 76, g);
 			}
 			else
 			{
-				paintOngMau(btn1left, btn1mid, btn1right, x, y, w, g);
+				paintOngMau(btn1left, btn1mid, btn1right, x, y, 76, g);
 			}
 		}
-		int num = 0;
-		int num2 = x + w / 2;
-		if (imgBtn != null)
-		{
-			num = imgBtn.getWidth();
-			num2 = x + num;
-			if (!isFocus)
-			{
-				g.drawImage(imgBtn, x, y, 0);
-			}
-			else
-			{
-				g.drawImage(imgBtn, x, y + 1, 0);
-			}
-		}
+		int num = ((type != 1) ? (x + 38) : (x + hw));
 		if (!isFocus)
 		{
-			mFont.tahoma_7b_dark.drawString(g, caption, num2, y + 7, (num == 0) ? 2 : 0);
+			mFont.tahoma_7b_dark.drawString(g, caption, num, y + 7, 2);
 		}
 		else
 		{
-			mFont.tahoma_7b_green2.drawString(g, caption, num2, y + 7, (num == 0) ? 2 : 0);
+			mFont.tahoma_7b_green2.drawString(g, caption, num, y + 7, 2);
 		}
 	}
 
@@ -230,7 +223,7 @@ public class Command
 			{
 				isFocus = true;
 			}
-			if (GameCanvas.isPointerJustRelease)
+			if (GameCanvas.isPointerJustRelease && GameCanvas.isPointerClick)
 			{
 				return true;
 			}
@@ -248,7 +241,7 @@ public class Command
 			{
 				isFocus = true;
 			}
-			if (GameCanvas.isPointerJustRelease)
+			if (GameCanvas.isPointerJustRelease && GameCanvas.isPointerClick)
 			{
 				return true;
 			}

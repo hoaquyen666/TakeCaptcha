@@ -1,5 +1,7 @@
 public class mResources
 {
+	public static string confirmChangeServer = string.Empty;
+
 	public static string chooseDefaultsv = string.Empty;
 
 	public static string winLose = string.Empty;
@@ -966,10 +968,6 @@ public class mResources
 
 	public static string can_buy_from_Uron3 = string.Empty;
 
-	public static string critdame = string.Empty;
-
-	public static string giamsatthuong = string.Empty;
-
 	public static string HP = string.Empty;
 
 	public static string KI = string.Empty;
@@ -1143,14 +1141,6 @@ public class mResources
 	public static string den;
 
 	public static string nhatvatpham;
-
-	public static string confirmChangeServer;
-
-	public static string cauhinhthuong;
-
-	public static string countDown_waitingroom;
-
-	public static string potential_to_learn_tuyetKi = string.Empty;
 
 	public static void loadLanguague()
 	{

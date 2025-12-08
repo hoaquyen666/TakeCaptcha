@@ -18,9 +18,7 @@ public class T3 : mResources
 		mResources.functionMaintain1 = "Fungsi dalam maintenance.";
 		mResources.napngoc = "Beli lebih gems";
 		mResources.nhatvatpham = "Yakin ingin memilih barang ini ?";
-		mResources.xinchucmung = "Hadiah Selamat , Andari has memenangkan Angka keberuntungan";
 		mResources.tang = "Tingkat";
-		mResources.den = "bergeser ke";
 		mResources.kquaVongQuay = "Hasil angka keberuntungan";
 		mResources.quayso = "Siapa yang harus hipilih";
 		mResources.gameInfo = "Pemberitahuan";
@@ -41,7 +39,6 @@ public class T3 : mResources
 		mResources.maychutathoacmatsong = "Koneksi gagal, harap coba kembali";
 		mResources.cauhinhthap = "Grafis kurang";
 		mResources.cauhinhcao = "Grafik tinggi";
-		mResources.cauhinhthuong = "Grafik medium";
 		mResources.taidulieu = "Download";
 		mResources.xoadulieu = "Hapus data";
 		mResources.deletaDataNote = "Kamu harus manghapus data ketika data game error. Setelah selesai manghapus, kamu harus download data lagi untuk bermain.";
@@ -65,7 +62,7 @@ public class T3 : mResources
 		mResources.note = "Kamu akan kehilangan account kamu selamanya jika kamu berganti ke account yang lain. Apakah kamu setuju?";
 		mResources.REGISTOPROTECT = "Daftar untuk melindungi account";
 		mResources.finishBomong = "Kamu harus menyelesaikan misi mencari Dragon Ball bintang 6 untuk recharge";
-		mResources.charger = "Forum and Beli lebih gems";
+		mResources.charger = "Beli lebih gems";
 		mResources.notYetSell = "Tidak ada item untuk dibeli";
 		mResources.getUp = "Tekan atas untuk mendapatkan lebih banyak";
 		mResources.getDown = "Tekan bawah untuk mendapatkan lebih banyak";
@@ -352,7 +349,7 @@ public class T3 : mResources
 		mResources.go_to_quest = "Pergi ke titik berkedip di peta untuk pencarian";
 		mResources.from_earth = "Hanya untuk Bumi\n";
 		mResources.from_namec = "Hanya untuk Namekian\n";
-		mResources.from_sayda = "Hanya untuk Xaiyan\n";
+		mResources.from_sayda = "Hanya untuk Saiyan\n";
 		mResources.expire = "Expire";
 		mResources.pow_request = "Power dibutuhkan";
 		mResources.your_pow = "Power kamu";
@@ -492,8 +489,7 @@ public class T3 : mResources
 		mResources.want_to_trade = "ingin bertukar dengan kamu, terima?";
 		mResources.hasJustUpgrade1 = "Kamu baru saja mengupgrade";
 		mResources.hasJustUpgrade2 = "ke";
-		mResources.potential_to_learn = "potential untuk Master untuk belajar";
-		mResources.potential_to_learn_tuyetKi = "potential untuk Whis untuk belajar";
+		mResources.potential_to_learn = "potential untuk Whis untuk belajar";
 		mResources.potential_point = "Potential points";
 		mResources.achievement_point = " Achievement point ";
 		mResources.increase = "bertambah";
@@ -510,14 +506,12 @@ public class T3 : mResources
 		mResources.can_buy_from_Uron1 = "Saat kamu punya";
 		mResources.can_buy_from_Uron2 = "potential points, kamu bisa meng-upgrade dengan gratis";
 		mResources.can_buy_from_Uron3 = "Disamping itu kamu bisa membeli resep di Uron untuk belajar dengan cepat";
-		mResources.critdame = "Crit Dame";
-		mResources.giamsatthuong = "Re.Dame";
 		mResources.HP = "HP";
 		mResources.KI = "KI";
 		mResources.hit_point = "Serang";
 		mResources.armor = "Armor";
 		mResources.vitality = "Vitality";
-		mResources.critical = "Crit";
+		mResources.critical = "Critical";
 		mResources.cap_do = "Level";
 		mResources.KI_consume = "Pemakaian KI:";
 		mResources.cooldown = "Tenang";
@@ -552,6 +546,5 @@ public class T3 : mResources
 		mResources.playNew = "Game baru";
 		mResources.playAcc = "Account bermain";
 		mResources.not_register_yet = "Tidak mendaftar belum";
-		mResources.countDown_waitingroom = "CountDown: ";
 	}
 }

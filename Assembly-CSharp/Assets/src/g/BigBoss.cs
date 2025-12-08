@@ -58,7 +58,7 @@ namespace Assets.src.g
 
 		private Char[] charAttack;
 
-		private long[] dameHP;
+		private int[] dameHP;
 
 		private sbyte type;
 
@@ -140,7 +140,7 @@ namespace Assets.src.g
 
 		public new bool sleepEff;
 
-		public BigBoss(int id, short px, short py, int templateID, long hp, long maxhp, int s)
+		public BigBoss(int id, short px, short py, int templateID, int hp, int maxhp, int s)
 		{
 			xFirst = (x = px + 20);
 			yFirst = (y = py);
@@ -437,7 +437,7 @@ namespace Assets.src.g
 			flyUp = true;
 		}
 
-		public void setAttack(Char[] cAttack, long[] dame, sbyte type)
+		public void setAttack(Char[] cAttack, int[] dame, sbyte type)
 		{
 			charAttack = cAttack;
 			dameHP = dame;
@@ -456,7 +456,7 @@ namespace Assets.src.g
 			{
 				for (int i = 0; i < charAttack.Length; i++)
 				{
-					charAttack[i].doInjure(dameHP[i], 0L, false, false);
+					charAttack[i].doInjure(dameHP[i], 0, false, false);
 				}
 			}
 			if (type == 7)
@@ -491,7 +491,7 @@ namespace Assets.src.g
 				{
 					for (int i = 0; i < charAttack.Length; i++)
 					{
-						MonsterDart.addMonsterDart(x + ((dir != 1) ? (-45) : 45), y - 30, true, dameHP[i], 0L, charAttack[i], 24);
+						MonsterDart.addMonsterDart(x + ((dir != 1) ? (-45) : 45), y - 30, true, dameHP[i], 0, charAttack[i], 24);
 					}
 				}
 			}
@@ -509,7 +509,7 @@ namespace Assets.src.g
 				{
 					for (int j = 0; j < charAttack.Length; j++)
 					{
-						charAttack[j].doInjure(dameHP[j], 0L, false, false);
+						charAttack[j].doInjure(dameHP[j], 0, false, false);
 						ServerEffect.addServerEffect(102, charAttack[j].cx, charAttack[j].cy, 1);
 					}
 				}
@@ -533,7 +533,7 @@ namespace Assets.src.g
 				shock = true;
 				for (int k = 0; k < charAttack.Length; k++)
 				{
-					charAttack[k].doInjure(dameHP[k], 0L, false, false);
+					charAttack[k].doInjure(dameHP[k], 0, false, false);
 				}
 			}
 		}
@@ -664,9 +664,9 @@ namespace Assets.src.g
 
 		public new void startDie()
 		{
-			hp = 0L;
+			hp = 0;
 			injureThenDie = true;
-			hp = 0L;
+			hp = 0;
 			status = 1;
 			p1 = -3;
 			p2 = -dir;

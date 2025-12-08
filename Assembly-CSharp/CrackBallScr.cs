@@ -1,5 +1,4 @@
 using System;
-using System.Threading;
 
 public class CrackBallScr : mScreen
 {
@@ -87,12 +86,6 @@ public class CrackBallScr : mScreen
 
 	private static Image imgReplay;
 
-	public static bool isAutoCrackBall;
-
-	public static bool isCallStop;
-
-	public static bool isContinue;
-
 	private byte[] fr = new byte[21]
 	{
 		19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
@@ -108,11 +101,10 @@ public class CrackBallScr : mScreen
 
 	public CrackBallScr()
 	{
-		xSkill = new int[3];
+		xSkill = new int[2];
 		xSkill[0] = 16;
 		ySkill = GameCanvas.h - 41;
 		xSkill[1] = GameCanvas.w - 40;
-		xSkill[2] = (xSkill[0] + xSkill[1]) / 2;
 		Image img = GameCanvas.loadImage("/e/e_1.png");
 		fraImgKame = new FrameImage(img, 30, 30);
 		Image img2 = GameCanvas.loadImage("/e/e_0.png");
@@ -164,7 +156,7 @@ public class CrackBallScr : mScreen
 			this.price = price;
 			cost = 0;
 			Char.myCharz().moveTo(470, 408, 1);
-			Char.myCharz().cdir = -1;
+			Char.myCharz().cdir = 2;
 			Char.myCharz().statusMe = 1;
 			countFr = 0;
 			countKame = 0;
@@ -456,15 +448,6 @@ public class CrackBallScr : mScreen
 		{
 			updateKeyTouchControl();
 		}
-		if (isAutoCrackBall && !GameCanvas.keyPressed[0])
-		{
-			GameCanvas.clearKeyHold();
-			GameCanvas.clearKeyPressed();
-		}
-		if (GameCanvas.keyPressed[0])
-		{
-			doClickSkill(2);
-		}
 		for (int i = 1; i < 8; i++)
 		{
 			if (GameCanvas.keyPressed[i])
@@ -506,10 +489,6 @@ public class CrackBallScr : mScreen
 		{
 			if (GameCanvas.isPointerHoldIn(xSkill[j], ySkill, 36, 36) && GameCanvas.isPointerClick && GameCanvas.isPointerJustRelease)
 			{
-				if (isAutoCrackBall && j != 2)
-				{
-					break;
-				}
 				doClickSkill(j);
 			}
 		}
@@ -537,19 +516,7 @@ public class CrackBallScr : mScreen
 	private void doClickSkill(int index)
 	{
 		indexSkillSelect = index;
-		if (indexSkillSelect == 2)
-		{
-			isAutoCrackBall = !isAutoCrackBall;
-			if (isAutoCrackBall)
-			{
-				startAutoCrackBall();
-			}
-			else
-			{
-				isCallStop = true;
-			}
-		}
-		else if (index == 0)
+		if (index == 0)
 		{
 			if (step < 2)
 			{
@@ -568,10 +535,6 @@ public class CrackBallScr : mScreen
 		}
 		else
 		{
-			if (isAutoCrackBall)
-			{
-				stopAutoCrackBall();
-			}
 			GameScr.gI().isRongThanXuatHien = false;
 			GameScr.gI().switchToMe();
 		}
@@ -675,15 +638,6 @@ public class CrackBallScr : mScreen
 					SmallImage.drawSmallImage(g, idItem[l], num8 + 5 + l * 30, yP + 10, 0, 0);
 				}
 			}
-			if (isAutoCrackBall)
-			{
-				g.drawImage(GameScr.imgSkill2, (xSkill[0] + xSkill[1]) / 2, ySkill, 0);
-			}
-			else
-			{
-				g.drawImage(GameScr.imgSkill, (xSkill[0] + xSkill[1]) / 2, ySkill, 0);
-			}
-			SmallImage.drawSmallImage(g, 4387, (xSkill[0] + xSkill[1]) / 2 + 14, ySkill + 14, 0, StaticObj.VCENTER_HCENTER);
 		}
 		catch (Exception)
 		{
@@ -747,83 +701,6 @@ public class CrackBallScr : mScreen
 				numTicket = Char.myCharz().arrItemBag[i].quantity;
 				break;
 			}
-		}
-	}
-
-	private void useSkillCrackBall()
-	{
-		if (step < 2)
-		{
-			if (checkTicket() + checkNum() > 0)
-			{
-				step = 2;
-				SoundMn.gI().gong();
-				Char.myCharz().setSkillPaint(GameScr.sks[13], 0);
-				timeKame = GameCanvas.timeNow + Res.random(2000, 3000);
-			}
-		}
-		else if (yP == GameCanvas.hh / 3)
-		{
-			Service.gI().SendCrackBall(typePrice, 0);
-		}
-	}
-
-	public void startAutoCrackBall()
-	{
-		Thread thread = new Thread(AutoCrackBall);
-		thread.Start();
-	}
-
-	public void stopAutoCrackBall()
-	{
-		isAutoCrackBall = false;
-		indexSkillSelect = -1;
-		isCallStop = false;
-		isContinue = false;
-	}
-
-	public void AutoCrackBall()
-	{
-		int num = 0;
-		bool flag = false;
-		try
-		{
-			while (isAutoCrackBall && GameCanvas.currentScreen == instance)
-			{
-				indexSkillSelect = 2;
-				while (num < 7 && step != 5)
-				{
-					doClickBall(num);
-					num++;
-					Thread.Sleep(300);
-				}
-				if (num == 7)
-				{
-					Thread.Sleep(800);
-					gI().useSkillCrackBall();
-					Thread.Sleep(4000);
-					if (isCallStop)
-					{
-						stopAutoCrackBall();
-						Thread.ResetAbort();
-						break;
-					}
-					if (step == 5)
-					{
-						gI().useSkillCrackBall();
-						num = 0;
-					}
-					Thread.Sleep(1000);
-				}
-				if (step == 5 && num == 0 && !flag)
-				{
-					flag = true;
-					gI().useSkillCrackBall();
-				}
-			}
-		}
-		catch (Exception)
-		{
 		}
 	}
 }

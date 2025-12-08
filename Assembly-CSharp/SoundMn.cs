@@ -231,8 +231,8 @@ public class SoundMn
 		{
 			Panel.strCauhinh = new string[4]
 			{
-				(!Char.isPaintAura) ? (text2 + mResources.aura_off.Trim()) : (text + mResources.aura_off.Trim()),
-				(!Char.isPaintAura2) ? (text2 + mResources.aura_off_2.Trim()) : (text + mResources.aura_off_2.Trim()),
+				(!Char.isPaintAura) ? (text + mResources.aura_off) : (text2 + mResources.aura_off),
+				(!Char.isPaintAura2) ? (text + mResources.aura_off_2) : (text2 + mResources.aura_off_2),
 				(!GameCanvas.isPlaySound) ? (text2 + mResources.turnOffSound) : (text + mResources.turnOffSound),
 				(mGraphics.zoomLevel <= 1) ? (text2 + mResources.x2Screen) : (text + mResources.x1Screen)
 			};
@@ -245,8 +245,8 @@ public class SoundMn
 		}
 		Panel.strCauhinh = new string[5]
 		{
-			(!Char.isPaintAura) ? (text2 + mResources.aura_off.Trim()) : (text + mResources.aura_off.Trim()),
-			(!Char.isPaintAura2) ? (text2 + mResources.aura_off_2.Trim()) : (text + mResources.aura_off_2.Trim()),
+			(!Char.isPaintAura) ? (text + mResources.aura_off) : (text2 + mResources.aura_off),
+			(!Char.isPaintAura2) ? (text + mResources.aura_off_2) : (text2 + mResources.aura_off_2),
 			(!GameCanvas.isPlaySound) ? (text2 + mResources.turnOffSound) : (text + mResources.turnOffSound),
 			(!GameCanvas.lowGraphic) ? (text2 + mResources.cauhinhthap) : (text + mResources.cauhinhthap),
 			text3

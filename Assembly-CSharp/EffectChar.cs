@@ -14,7 +14,7 @@ public class EffectChar
 
 	public EffectTemplate template;
 
-	public EffectChar(short templateId, int timeStart, int timeLenght, short param)
+	public EffectChar(sbyte templateId, int timeStart, int timeLenght, short param)
 	{
 		template = effTemplates[templateId];
 		this.timeStart = timeStart;

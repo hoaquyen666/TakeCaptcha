@@ -39,6 +39,11 @@ public class myReader
 		throw new Exception(" loi doc sbyte eof ");
 	}
 
+	public sbyte readsbyte()
+	{
+		return readSByte();
+	}
+
 	public sbyte readByte()
 	{
 		return readSByte();

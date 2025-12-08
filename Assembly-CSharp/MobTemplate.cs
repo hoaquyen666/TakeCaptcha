@@ -1,6 +1,6 @@
 public class MobTemplate
 {
-	public int mobTemplateId;
+	public sbyte mobTemplateId;
 
 	public sbyte rangeMove;
 
@@ -8,7 +8,7 @@ public class MobTemplate
 
 	public sbyte type;
 
-	public long hp;
+	public int hp;
 
 	public string name;
 

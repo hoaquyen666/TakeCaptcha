@@ -118,6 +118,10 @@ namespace Assets.src.g
 
 		private int hP;
 
+		private string passRe = string.Empty;
+
+		public bool isFAQ;
+
 		private int tipid = -1;
 
 		public bool isLogin2;
@@ -162,7 +166,7 @@ namespace Assets.src.g
 			tfSodt.setIputType(TField.INPUT_TYPE_NUMERIC);
 			tfSodt.width = 220;
 			tfSodt.height = mScreen.ITEM_HEIGHT + 2;
-			tfSodt.name = "Số điện thoại";
+			tfSodt.name = "Số điện thoại/ địa chỉ email";
 			if (haveName == 1)
 			{
 				tfSodt.setText("01234567890");
@@ -223,7 +227,7 @@ namespace Assets.src.g
 				tfCMND.setText("123456789");
 			}
 			tfNgayCap = new TField();
-			tfNgayCap.setIputType(TField.INPUT_TYPE_ANY);
+			tfNgayCap.setIputType(TField.INPUT_TYPE_NUMERIC);
 			tfNgayCap.width = 220;
 			tfNgayCap.height = mScreen.ITEM_HEIGHT + 2;
 			tfNgayCap.name = "Ngày cấp";
@@ -284,9 +288,12 @@ namespace Assets.src.g
 			cmdFogetPass = new Command("Thoát", this, 1003, null);
 			cmdFogetPass.x = 260;
 			cmdFogetPass.y = GameCanvas.h - 30;
-			cmdOK.x = GameCanvas.w / 2 - 80;
-			cmdFogetPass.x = GameCanvas.w / 2 + 10;
-			cmdFogetPass.y = (cmdOK.y = GameCanvas.h - 25);
+			if (GameCanvas.w < 250)
+			{
+				cmdOK.x = GameCanvas.w / 2 - 80;
+				cmdFogetPass.x = GameCanvas.w / 2 + 10;
+				cmdFogetPass.y = (cmdOK.y = GameCanvas.h - 25);
+			}
 			center = cmdOK;
 			left = cmdFogetPass;
 		}
@@ -392,6 +399,41 @@ namespace Assets.src.g
 		{
 		}
 
+		public void doViewFAQ()
+		{
+			if (!listFAQ.Equals(string.Empty) || !listFAQ.Equals(string.Empty))
+			{
+			}
+			if (!Session_ME.connected)
+			{
+				isFAQ = true;
+				GameCanvas.connect();
+			}
+			GameCanvas.startWaitDlg();
+		}
+
+		protected void doSelectServer()
+		{
+			MyVector myVector = new MyVector("vServer");
+			if (isLocal)
+			{
+				myVector.addElement(new Command("Server LOCAL", this, 20004, null));
+			}
+			myVector.addElement(new Command("Server Bokken", this, 20001, null));
+			myVector.addElement(new Command("Server Shuriken", this, 20002, null));
+			myVector.addElement(new Command("Server Tessen (mới)", this, 20003, null));
+			GameCanvas.menu.startAt(myVector, 0);
+			if (loadIndexServer() != -1 && !GameCanvas.isTouch)
+			{
+				GameCanvas.menu.menuSelectedItem = loadIndexServer();
+			}
+		}
+
+		protected void saveIndexServer(int index)
+		{
+			Rms.saveRMSInt("indServer", index);
+		}
+
 		protected int loadIndexServer()
 		{
 			return Rms.loadRMSInt("indServer");
@@ -408,10 +450,14 @@ namespace Assets.src.g
 		public override void update()
 		{
 			tfUser.update();
-			tfSodt.update();
 			tfNgay.update();
 			tfThang.update();
 			tfNam.update();
+			tfDiachi.update();
+			tfCMND.update();
+			tfNoiCap.update();
+			tfSodt.update();
+			tfNgayCap.update();
 			for (int i = 0; i < Effect2.vEffect2.size(); i++)
 			{
 				Effect2 effect = (Effect2)Effect2.vEffect2.elementAt(i);
@@ -565,11 +611,15 @@ namespace Assets.src.g
 			}
 			if (GameCanvas.currentDialog == null)
 			{
-				int num2 = ((GameCanvas.w < 200) ? 160 : 180);
-				xLog = GameCanvas.hw - 120;
-				int num3 = 110;
-				yLog = (GameCanvas.h - num3) / 2;
-				PopUp.paintPopUp(g, xLog, yLog, 240, num3, -1, true);
+				xLog = 5;
+				int num2 = 233;
+				if (GameCanvas.w < 260)
+				{
+					xLog = (GameCanvas.w - 240) / 2;
+				}
+				yLog = (GameCanvas.h - num2) / 2;
+				int num3 = ((GameCanvas.w < 200) ? 160 : 180);
+				PopUp.paintPopUp(g, xLog, yLog, 240, num2, -1, true);
 				if (GameCanvas.h > 160 && imgTitle != null)
 				{
 					g.drawImage(imgTitle, GameCanvas.hw, num, 3);
@@ -582,29 +632,68 @@ namespace Assets.src.g
 					num4--;
 					num5 = num4 * 32 + 23 + 33;
 				}
-				tfUser.x = xLog + 10;
-				tfUser.y = yLog + 15;
-				tfSodt.x = tfUser.x;
-				tfSodt.y = tfUser.y + 30;
+				tfSodt.x = xLog + 10;
+				tfSodt.y = yLog + 15;
+				tfUser.x = tfSodt.x;
+				tfUser.y = tfSodt.y + 30;
 				tfNgay.x = xLog + 10;
-				tfNgay.y = tfSodt.y + 30;
+				tfNgay.y = tfUser.y + 30;
 				tfThang.x = tfNgay.x + 75;
 				tfThang.y = tfNgay.y;
 				tfNam.x = tfThang.x + 75;
 				tfNam.y = tfThang.y;
-				mFont.tahoma_7b_focus.drawString(g, "Cập nhật thông tin", GameCanvas.hw, yLog + 2, 2);
+				tfDiachi.x = tfUser.x;
+				tfDiachi.y = tfNgay.y + 30;
+				tfCMND.x = tfUser.x;
+				tfCMND.y = tfDiachi.y + 30;
+				tfNgayCap.x = tfUser.x;
+				tfNgayCap.y = tfCMND.y + 30;
+				tfNoiCap.x = tfUser.x;
+				tfNoiCap.y = tfNgayCap.y + 30;
 				tfUser.paint(g);
-				tfSodt.paint(g);
 				tfNgay.paint(g);
 				tfThang.paint(g);
 				tfNam.paint(g);
+				tfDiachi.paint(g);
+				tfCMND.paint(g);
+				tfNgayCap.paint(g);
+				tfNoiCap.paint(g);
+				tfSodt.paint(g);
+				int num6 = 0;
+				if (GameCanvas.w >= 176)
+				{
+					num6 = 50;
+				}
+				else
+				{
+					mFont.tahoma_7b_green2.drawString(g, mResources.acc + ":", tfUser.x - 35, tfUser.y + 7, 0);
+					mFont.tahoma_7b_green2.drawString(g, mResources.pwd + ":", tfNgay.x - 35, tfNgay.y + 7, 0);
+					mFont.tahoma_7b_green2.drawString(g, mResources.server + ": " + serverName, GameCanvas.w / 2, tfNgay.y + 32, 2);
+					if (isRes)
+					{
+					}
+					num6 = 0;
+				}
 			}
-			GameCanvas.resetTrans(g);
 			string vERSION = GameMidlet.VERSION;
 			g.setColor(GameCanvas.skyColor);
 			g.fillRect(GameCanvas.w - 40, 4, 36, 11);
 			mFont.tahoma_7_grey.drawString(g, vERSION, GameCanvas.w - 22, 4, mFont.CENTER);
-			g.drawImage(GameCanvas.img18, 10, 10, 0);
+			GameCanvas.resetTrans(g);
+			if (GameCanvas.currentDialog == null)
+			{
+				if (GameCanvas.w > 250)
+				{
+					mFont.tahoma_7b_white.drawString(g, "Dưới 18 tuổi", 260, 10, 0, mFont.tahoma_7b_dark);
+					mFont.tahoma_7b_white.drawString(g, "chỉ có thể chơi", 260, 25, 0, mFont.tahoma_7b_dark);
+					mFont.tahoma_7b_white.drawString(g, "180p 1 ngày", 260, 40, 0, mFont.tahoma_7b_dark);
+				}
+				else
+				{
+					mFont.tahoma_7b_white.drawString(g, "Dưới 18 tuổi chỉ có thể chơi", GameCanvas.w / 2, 5, 2, mFont.tahoma_7b_dark);
+					mFont.tahoma_7b_white.drawString(g, "180p 1 ngày", GameCanvas.w / 2, 15, 2, mFont.tahoma_7b_dark);
+				}
+			}
 			base.paint(g);
 		}
 
@@ -882,13 +971,13 @@ namespace Assets.src.g
 				actRegister();
 				break;
 			case 2008:
-				if (tfNgay.getText().Equals(string.Empty) || tfThang.getText().Equals(string.Empty) || tfNam.getText().Equals(string.Empty) || tfSodt.getText().Equals(string.Empty) || tfUser.getText().Equals(string.Empty))
+				if (tfNgay.getText().Equals(string.Empty) || tfThang.getText().Equals(string.Empty) || tfNam.getText().Equals(string.Empty) || tfDiachi.getText().Equals(string.Empty) || tfCMND.getText().Equals(string.Empty) || tfNgayCap.getText().Equals(string.Empty) || tfNoiCap.getText().Equals(string.Empty) || tfSodt.getText().Equals(string.Empty) || tfUser.getText().Equals(string.Empty))
 				{
 					GameCanvas.startOKDlg("Vui lòng điền đầy đủ thông tin");
 					break;
 				}
 				GameCanvas.startOKDlg(mResources.PLEASEWAIT);
-				Service.gI().charInfo(tfNgay.getText(), tfThang.getText(), tfNam.getText(), string.Empty, string.Empty, string.Empty, string.Empty, tfSodt.getText(), tfUser.getText());
+				Service.gI().charInfo(tfNgay.getText(), tfThang.getText(), tfNam.getText(), tfDiachi.getText(), tfCMND.getText(), tfNgayCap.getText(), tfNoiCap.getText(), tfSodt.getText(), tfUser.getText());
 				break;
 			case 4000:
 				doRegister(tfUser.getText());

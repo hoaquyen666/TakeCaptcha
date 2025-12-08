@@ -5,6 +5,7 @@ public class BgItemMn
 {
 	public static Image blendImage(Image img, int layer, int idImage)
 	{
+		return null;
 		int num = TileMap.tileID - 1;
 		Image image = img;
 		if (num == 0 && layer == 1)

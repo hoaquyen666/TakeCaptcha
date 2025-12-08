@@ -29,7 +29,7 @@ public class T2 : mResources
 		mResources.fusionForever = "Fusion dance forever";
 		mResources.fusion = "Fusion dance";
 		mResources.nhanngoc = "Receive gem";
-		mResources.vuilongnhapduthongtin = "Please, enter the valid quantity";
+		mResources.vuilongnhapduthongtin = "Please enter complete information";
 		mResources.choitiep = "Continue";
 		mResources.gohome = "Go home";
 		mResources.status = "Status";
@@ -37,11 +37,9 @@ public class T2 : mResources
 		mResources.defend = "Protect";
 		mResources.follow = "Follow";
 		mResources.pet = "Disciple";
-		mResources.den = "Go to";
 		mResources.maychutathoacmatsong = "Connect fail, please try again";
 		mResources.cauhinhthap = "Low graphics";
 		mResources.cauhinhcao = "High graphics";
-		mResources.cauhinhthuong = "Medium graphics";
 		mResources.taidulieu = "Download";
 		mResources.xoadulieu = "Clear data";
 		mResources.deletaDataNote = "When game have data errors, you should delete data. After delete data, you have to download data to play game.";
@@ -65,8 +63,7 @@ public class T2 : mResources
 		mResources.note = "You will lost your account forever if you change to another account,do you agree ?";
 		mResources.REGISTOPROTECT = "Register to protect account";
 		mResources.finishBomong = "You must finish the mission find 6 star dragon ball to recharge";
-		mResources.charger = "Forum and Buy more gems";
-		mResources.napngoc = "Buy more gems";
+		mResources.charger = "Recharge";
 		mResources.notYetSell = "No items to buy";
 		mResources.getUp = "Hold up to get more";
 		mResources.getDown = "Hold down to get more";
@@ -82,8 +79,8 @@ public class T2 : mResources
 		mResources.daban = "Sold";
 		mResources.dangban = "Selling";
 		mResources.kigui = "Consign";
-		mResources.turnOffSound = "Sound";
 		mResources.turnOnSound = "Sound";
+		mResources.turnOffSound = "Sound";
 		mResources.no_enemy = "No enemy";
 		mResources.selectServer2 = "Select server";
 		mResources.rank = "Rank";
@@ -92,7 +89,6 @@ public class T2 : mResources
 		mResources.SENDINGMSG = "Sending message..";
 		mResources.SENTMSG = "Sent message, please wait for confirmed message.";
 		mResources.NOSENDMSG = "Message can not be delivered. Please check your account and restart game.";
-		mResources.MOVEFORPET = "User for\ndisciple";
 		mResources.sendMsgSuccess = "Message delivered";
 		mResources.cannotSendMsg = "Can not send message";
 		mResources.sendGuessMsgSuccess = "Congratulation, you have just send predicted message successfully.";
@@ -361,7 +357,7 @@ public class T2 : mResources
 		mResources.go_to_quest = "Go to the flashing point on the map for quest";
 		mResources.from_earth = "For Earth only\n";
 		mResources.from_namec = "For Namekian Only\n";
-		mResources.from_sayda = "For Xaiyan Only\n";
+		mResources.from_sayda = "For Saiyan Only\n";
 		mResources.expire = "Expire";
 		mResources.pow_request = "Power required";
 		mResources.your_pow = "Your power";
@@ -374,8 +370,8 @@ public class T2 : mResources
 		mResources.UPGRADING = "Upgrading";
 		mResources.make_shortcut = "Add\nShort cut";
 		mResources.into_place = "Into\nplace ";
-		mResources.move_to_chest = "Move to\nchest";
-		mResources.move_to_chest2 = "Move to\nchest";
+		mResources.move_to_chest = "Move to chest";
+		mResources.move_to_chest2 = "Move to chest";
 		mResources.press_chat_querty = "Press # to chat";
 		mResources.press_chat = "Press c to chat";
 		mResources.saying = "Chat";
@@ -433,7 +429,7 @@ public class T2 : mResources
 		mResources.input_clan_slogan = "Enter clan's slogan";
 		mResources.do_u_want_join_clan = "Do you want to join clan ";
 		mResources.select_clan_icon = "Select clan's icon";
-		mResources.request_join_clan = "Request join\nclan";
+		mResources.request_join_clan = "Request join";
 		mResources.view_clan_member = "View clan's\nmember";
 		mResources.create_clan_co_leader = "Order\ncoleader";
 		mResources.create_clan_leader = "Order\nleader";
@@ -459,8 +455,8 @@ public class T2 : mResources
 		mResources.you = "You";
 		mResources.mlock = "Lock";
 		mResources.money_trade = "Transaction amount";
-		mResources.GETOUT = "Move to Equipment";
-		mResources.MOVEOUT = "Remove";
+		mResources.GETOUT = "Get out";
+		mResources.MOVEOUT = "Move out";
 		mResources.MOVEFORPET = "User for\ndisciple";
 		mResources.GETOUTMONEY = "Withdrawn gold";
 		mResources.GETINMONEY = "Deposit gold";
@@ -519,14 +515,12 @@ public class T2 : mResources
 		mResources.can_buy_from_Uron1 = "When you have ";
 		mResources.can_buy_from_Uron2 = " potential points, you can upgrade for free ";
 		mResources.can_buy_from_Uron3 = ". Beside that, you can buy recipes at Uron to learn quickly";
-		mResources.critdame = "Crit Dame";
-		mResources.giamsatthuong = "Re.Dame";
 		mResources.HP = "HP";
 		mResources.KI = "KI";
 		mResources.hit_point = "Attack";
 		mResources.armor = "Armor";
 		mResources.vitality = "Vitality";
-		mResources.critical = "Crit";
+		mResources.critical = "Critical";
 		mResources.cap_do = "Level";
 		mResources.KI_consume = "KI consume: ";
 		mResources.cooldown = "Cooldown";
@@ -570,7 +564,5 @@ public class T2 : mResources
 		mResources.playNew = "New game";
 		mResources.playAcc = "Play acc";
 		mResources.not_register_yet = "Not register yet";
-		mResources.countDown_waitingroom = "CountDown: ";
-		mResources.potential_to_learn_tuyetKi = "potential to Whis to learn";
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using Assets.Scripts.Assembly_CSharp.Mod;
 using Assets.src.g;
 
 public class Mob : IMapObject
@@ -57,11 +58,9 @@ public class Mob : IMapObject
 
 	public int holdEffID;
 
-	public long hp;
+	public int hp;
 
-	public long maxHp;
-
-	public long hpInjure;
+	public int maxHp;
 
 	public int x;
 
@@ -90,6 +89,8 @@ public class Mob : IMapObject
 	public int w;
 
 	public int h;
+
+	public int hpInjure;
 
 	public int charIndex;
 
@@ -127,9 +128,9 @@ public class Mob : IMapObject
 
 	public Char cFocus;
 
-	public long dame;
+	public int dame;
 
-	public long dameMp;
+	public int dameMp;
 
 	public int sys;
 
@@ -247,7 +248,7 @@ public class Mob : IMapObject
 	{
 	}
 
-	public Mob(int mobId, bool isDisable, bool isDontMove, bool isFire, bool isIce, bool isWind, int templateId, int sys, long hp, sbyte level, long maxp, short pointx, short pointy, sbyte status, sbyte levelBoss)
+	public Mob(int mobId, bool isDisable, bool isDontMove, bool isFire, bool isIce, bool isWind, int templateId, int sys, int hp, sbyte level, int maxp, short pointx, short pointy, sbyte status, sbyte levelBoss)
 	{
 		this.isDisable = isDisable;
 		this.isDontMove = isDontMove;
@@ -274,6 +275,7 @@ public class Mob : IMapObject
 		maxHp = maxp;
 		this.levelBoss = levelBoss;
 		updateHp_bar();
+		per_tem = (int)((long)hp * 100L / maxHp);
 		isDie = false;
 		xSd = pointx;
 		ySd = pointy;
@@ -457,6 +459,7 @@ public class Mob : IMapObject
 
 	private void updateShadown()
 	{
+		return;
 		int num = TileMap.size;
 		xSd = x;
 		wCount = 0;
@@ -491,6 +494,7 @@ public class Mob : IMapObject
 
 	private void paintShadow(mGraphics g)
 	{
+		return;
 		int num = TileMap.size;
 		if (TileMap.tileTypeAt(xSd + num / 2, ySd + 1, 4))
 		{
@@ -555,7 +559,7 @@ public class Mob : IMapObject
 					obj2.cy = obj.cy - obj.ch;
 					if (obj.cgender == 0)
 					{
-						MonsterDart.addMonsterDart(x + dir * w, y, checkIsBoss(), -100L, -100L, obj2, 25);
+						MonsterDart.addMonsterDart(x + dir * w, y, checkIsBoss(), -100, -100, obj2, 25);
 					}
 				}
 			}
@@ -566,7 +570,7 @@ public class Mob : IMapObject
 				obj3.cy = Char.myCharz().cy - Char.myCharz().ch;
 				if (Char.myCharz().cgender == 0)
 				{
-					MonsterDart.addMonsterDart(x + dir * w, y, checkIsBoss(), -100L, -100L, obj3, 25);
+					MonsterDart.addMonsterDart(x + dir * w, y, checkIsBoss(), -100, -100, obj3, 25);
 				}
 			}
 		}
@@ -1395,8 +1399,8 @@ public class Mob : IMapObject
 
 	public void updateHp_bar()
 	{
-		len = (int)(hp * 100 / maxHp * w_hp_bar) / 100;
-		per = (int)(hp * 100 / maxHp);
+		len = (int)((long)hp * 100L / maxHp * w_hp_bar) / 100;
+		per = (int)((long)hp * 100L / maxHp);
 		if (per == 100)
 		{
 			per_tem = per;
@@ -1425,6 +1429,8 @@ public class Mob : IMapObject
 
 	public virtual void paint(mGraphics g)
 	{
+		CustomGraphics.paintMobSquare(g, this);
+		return;
 		if (isHide)
 		{
 			return;
@@ -1496,9 +1502,9 @@ public class Mob : IMapObject
 
 	public void startDie()
 	{
-		hp = 0L;
+		hp = 0;
 		injureThenDie = true;
-		hp = 0L;
+		hp = 0;
 		status = 1;
 		Res.outz("MOB DIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe");
 		p1 = -3;

@@ -179,7 +179,7 @@ public class Session_ME : ISession
 				{
 					b = readKey(b);
 				}
-				if (b == -32 || b == -66 || b == 11 || b == -67 || b == -74 || b == -87 || b == 66 || b == 12)
+				if (b == -32 || b == -66 || b == 11 || b == -67 || b == -74 || b == -87 || b == 66)
 				{
 					return readMessage2(b);
 				}
@@ -308,30 +308,23 @@ public class Session_ME : ISession
 
 	public void connect(string host, int port)
 	{
-		if (connected || connecting)
+		if (!connected && !connecting && mSystem.currentTimeMillis() >= timeWaitConnect)
 		{
-			Debug.Log(">>>return connect ...!" + connected + "  ::  " + connecting);
-			return;
+			timeWaitConnect = mSystem.currentTimeMillis() + 50;
+			if (isMainSession)
+			{
+				ServerListScreen.testConnect = -1;
+			}
+			this.host = host;
+			this.port = port;
+			getKeyComplete = false;
+			close();
+			Debug.Log("connecting...!");
+			Debug.Log("host: " + host);
+			Debug.Log("port: " + port);
+			initThread = new Thread(NetworkInit);
+			initThread.Start();
 		}
-		if (mSystem.currentTimeMillis() < timeWaitConnect)
-		{
-			Debug.LogError(">>>>chặn việc nó kết nối 2 3 lần liên tục");
-			return;
-		}
-		timeWaitConnect = mSystem.currentTimeMillis() + 50;
-		if (isMainSession)
-		{
-			ServerListScreen.testConnect = -1;
-		}
-		this.host = host;
-		this.port = port;
-		getKeyComplete = false;
-		close();
-		Debug.Log("connecting...!");
-		Debug.Log("host: " + host);
-		Debug.Log("port: " + port);
-		initThread = new Thread(NetworkInit);
-		initThread.Start();
 	}
 
 	private void NetworkInit()
@@ -365,6 +358,7 @@ public class Session_ME : ISession
 		sendThread = new Thread(sender.run);
 		sendThread.Start();
 		MessageCollector messageCollector = new MessageCollector();
+		Cout.LogError("new -----");
 		collectorThread = new Thread(messageCollector.run);
 		collectorThread.Start();
 		timeConnected = currentTimeMillis();
@@ -510,7 +504,6 @@ public class Session_ME : ISession
 		key = null;
 		curR = 0;
 		curW = 0;
-		Debug.LogError(">>>cleanNetwork ...!");
 		try
 		{
 			connected = false;
@@ -563,7 +556,6 @@ public class Session_ME : ISession
 			{
 				ServerListScreen.testConnect = 0;
 			}
-			Controller.isGet_CLIENT_INFO = false;
 		}
 		catch (Exception)
 		{

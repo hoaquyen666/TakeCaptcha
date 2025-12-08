@@ -8,8 +8,6 @@ public class CreateCharScr : mScreen, IActionListener
 
 	public static bool isCreateChar = false;
 
-	private Command cmdSelectSv;
-
 	public static TField tAddName;
 
 	public static int indexGender;
@@ -51,10 +49,6 @@ public class CreateCharScr : mScreen, IActionListener
 
 	public CreateCharScr()
 	{
-		if (GameCanvas.loginScr == null)
-		{
-			GameCanvas.loginScr = new LoginScr();
-		}
 		try
 		{
 			if (!GameCanvas.lowGraphic)
@@ -240,12 +234,6 @@ public class CreateCharScr : mScreen, IActionListener
 		Char.isLoadingMap = false;
 		tAddName.setFocusWithKb(true);
 		ServerListScreen.countDieConnect = 0;
-		if (GameCanvas.isTouch)
-		{
-			cmdSelectSv = new Command(ServerListScreen.nameServer[ServerListScreen.ipSelect], this, 10018, null);
-			cmdSelectSv.x = 1;
-			cmdSelectSv.y = 3;
-		}
 	}
 
 	public void doChangeMap()
@@ -289,10 +277,6 @@ public class CreateCharScr : mScreen, IActionListener
 			cf = 1;
 		}
 		tAddName.update();
-		if (cmdSelectSv != null && cmdSelectSv.isPointerPressInside())
-		{
-			cmdSelectSv.performAction();
-		}
 		if (selected != 0)
 		{
 			tAddName.isFocus = false;
@@ -446,7 +430,14 @@ public class CreateCharScr : mScreen, IActionListener
 				}
 			}
 		}
-		TileMap.paintTilemap(g);
+		if (mSystem.clientType == 5)
+		{
+			GameCanvas.paint_ios_bg(g);
+		}
+		else
+		{
+			TileMap.paintTilemap(g);
+		}
 		int num = 30;
 		if (GameCanvas.w == 128)
 		{
@@ -567,10 +558,7 @@ public class CreateCharScr : mScreen, IActionListener
 			tAddName.paint(g);
 		}
 		g.setClip(0, 0, GameCanvas.w, GameCanvas.h);
-		if (cmdSelectSv != null)
-		{
-			cmdSelectSv.paint(g);
-		}
+		mFont.tahoma_7b_white.drawString(g, mResources.server + " " + LoginScr.serverName, 5, 5, 0, mFont.tahoma_7b_dark);
 		if (!TouchScreenKeyboard.visible)
 		{
 			base.paint(g);
@@ -606,8 +594,11 @@ public class CreateCharScr : mScreen, IActionListener
 				GameCanvas.startYesNoDlg(mResources.note, new Command(mResources.YES, this, 10019, null), new Command(mResources.NO, this, 10020, null));
 				break;
 			}
+			if (Main.isWindowsPhone)
+			{
+				GameMidlet.isBackWindowsPhone = true;
+			}
 			Session_ME.gI().close();
-			ServerListScreen.isAutoLogin = false;
 			GameCanvas.serverScreen.switchToMe();
 			break;
 		case 10020:
@@ -616,14 +607,7 @@ public class CreateCharScr : mScreen, IActionListener
 		case 10019:
 			Session_ME.gI().close();
 			GameCanvas.endDlg();
-			ServerListScreen.isAutoLogin = false;
 			GameCanvas.serverScreen.switchToMe();
-			break;
-		case 10018:
-			ServerListScreen.SetIpSelect(-1, true);
-			ServerScr.isShowSv_HaveChar = false;
-			Controller.isEXTRA_LINK = false;
-			GameCanvas.serverScr.switchToMe();
 			break;
 		}
 	}

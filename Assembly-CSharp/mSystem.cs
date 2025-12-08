@@ -408,7 +408,6 @@ public class mSystem
 	public static void onConnectionFail()
 	{
 		Controller.isConnectionFail = true;
-		Debug.LogError(">>>>>>>> Controller.isConnectionFail = true;");
 	}
 
 	public static void onDisconnected()

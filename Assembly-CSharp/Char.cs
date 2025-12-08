@@ -1,7 +1,7 @@
 using System;
+using Assets.Scripts.Assembly_CSharp.Mod;
 using Assets.src.e;
 using Assets.src.g;
-using UnityEngine;
 
 public class Char : IMapObject
 {
@@ -101,11 +101,25 @@ public class Char : IMapObject
 
 	public int cspeed = 4;
 
+	public int ccurrentAttack;
+
+	public int cDamFull;
+
+	public int cDefull;
+
 	public int cCriticalFull;
 
-	public int cCritDameFull;
-
 	public int clevel;
+
+	public int cMP;
+
+	public int cHP;
+
+	public int cHPNew;
+
+	public int cMaxEXP;
+
+	public int cHPShow;
 
 	public int xReload;
 
@@ -119,27 +133,13 @@ public class Char : IMapObject
 
 	public int eff5BuffMp;
 
+	public int cHPFull;
+
+	public int cMPFull;
+
 	public int cdameDown;
 
 	public int cStr;
-
-	public long cMP;
-
-	public long cHP;
-
-	public long cHPNew;
-
-	public long cHPShow;
-
-	public long cHPFull;
-
-	public long cMPFull;
-
-	public long cDamFull;
-
-	public long cDefull;
-
-	public long cGiamST;
 
 	public long cLevelPercent;
 
@@ -147,9 +147,9 @@ public class Char : IMapObject
 
 	public long cNangdong;
 
-	public long damHP;
+	public int damHP;
 
-	public long damMP;
+	public int damMP;
 
 	public bool isMob;
 
@@ -824,12 +824,6 @@ public class Char : IMapObject
 
 	public long currS;
 
-	public const int C_XAYDA_2 = 2;
-
-	public const int C_NAMEC_1 = 1;
-
-	public const int C_TRAIDAT_0 = 0;
-
 	public bool havePet = true;
 
 	public MovePoint currentMovePoint;
@@ -853,8 +847,6 @@ public class Char : IMapObject
 	public bool changePos;
 
 	public bool isHide;
-
-	private int count;
 
 	private bool wy;
 
@@ -1088,7 +1080,7 @@ public class Char : IMapObject
 
 	public int perCentMp = 100;
 
-	public long dHP;
+	public int dHP;
 
 	public int headTemp = -1;
 
@@ -1203,8 +1195,6 @@ public class Char : IMapObject
 		new int[2] { 9, -7 },
 		new int[2] { 7, -3 }
 	};
-
-	public static short[] Arr_Head_FlyMove = new short[0];
 
 	public const byte TYPE_SKILL_KAMEX10 = 1;
 
@@ -1846,10 +1836,10 @@ public class Char : IMapObject
 		}
 		else if (dHP > cHP)
 		{
-			long num = dHP - cHP >> 1;
+			int num = dHP - cHP >> 1;
 			if (num < 1)
 			{
-				num = 1L;
+				num = 1;
 			}
 			dHP -= num;
 		}
@@ -2069,35 +2059,13 @@ public class Char : IMapObject
 				}
 				if (cgender == 2)
 				{
-					if (TileMap.mapID == 170)
+					if (GameCanvas.gameTick % 3 == 0)
 					{
-						if (GameCanvas.gameTick % 4 == 0)
-						{
-						}
-						if (GameCanvas.gameTick % 2 == 0)
-						{
-							if (cdir == 1)
-							{
-								ServerEffect.addServerEffect(70, cx - 18, cy - ch / 2 + 8, 1);
-								ServerEffect.addServerEffect(70, cx + 23, cy - ch / 2 + 15, 1);
-							}
-							else
-							{
-								ServerEffect.addServerEffect(70, cx + 18, cy - ch / 2 + 8, 1);
-								ServerEffect.addServerEffect(70, cx - 23, cy - ch / 2 + 15, 1);
-							}
-						}
+						ServerEffect.addServerEffect(154, cx, cy - ch / 2 + 10, 1);
 					}
-					else
+					if (GameCanvas.gameTick % 5 == 0)
 					{
-						if (GameCanvas.gameTick % 3 == 0)
-						{
-							ServerEffect.addServerEffect(154, cx, cy - ch / 2 + 10, 1);
-						}
-						if (GameCanvas.gameTick % 5 == 0)
-						{
-							ServerEffect.addServerEffect(114, cx + Res.random(-20, 20), cy + Res.random(-20, 20), 1);
-						}
+						ServerEffect.addServerEffect(114, cx + Res.random(-20, 20), cy + Res.random(-20, 20), 1);
 					}
 				}
 				if (cgender == 1)
@@ -2119,75 +2087,33 @@ public class Char : IMapObject
 						}
 					}
 				}
-				if (cgender == 0 && GameCanvas.gameTick % 2 == 0)
-				{
-					if (cdir == 1)
-					{
-						ServerEffect.addServerEffect(70, cx - 18, cy - ch / 2 + 8, 1);
-						ServerEffect.addServerEffect(70, cx + 23, cy - ch / 2 + 15, 1);
-					}
-					else
-					{
-						ServerEffect.addServerEffect(70, cx + 18, cy - ch / 2 + 8, 1);
-						ServerEffect.addServerEffect(70, cx - 23, cy - ch / 2 + 15, 1);
-					}
-				}
 				cur = mSystem.currentTimeMillis();
-				Res.outz("  7.5 gong namekLazer " + cName + "_" + cgender);
 				if (cur - last > seconds || cur - last > 10000)
 				{
-					Res.outz("<*> 8  namekLazer gong xong " + cName);
 					stopUseChargeSkill();
-					isStandAndCharge = false;
-					int skillId = myskill.skillId;
 					if (me)
 					{
+						GameScr.gI().auto = 0;
 						if (cgender == 2)
 						{
-							Res.outz("<*> 9 [me] xay da xong  " + myCharz().myskill.skillId);
-							myCharz().setSkillPaint(GameScr.sks[myCharz().myskill.skillId], flag ? 1 : 0);
+							myCharz().setAutoSkillPaint(GameScr.sks[myCharz().myskill.skillId], flag ? 1 : 0);
+							Service.gI().skill_not_focus(8);
 						}
 						if (cgender == 1)
 						{
-							Res.outz("<*> 9 [me] namec xong " + myCharz().myskill.skillId);
+							Res.outz("set skipp paint");
 							isCreateDark = true;
 							myCharz().setSkillPaint(GameScr.sks[myCharz().myskill.skillId], flag ? 1 : 0);
 						}
-						if (cgender == 0)
-						{
-							Res.outz("<*> 9 [me] namec xong " + myCharz().myskill.skillId);
-							myCharz().setSkillPaint(GameScr.sks[myCharz().myskill.skillId], flag ? 1 : 0);
-						}
-						if (myCharz().myskill.skillId >= 77 && myCharz().myskill.skillId <= 83)
-						{
-							Service.gI().skill_not_focus(4);
-						}
-						skillId = myCharz().myskill.skillId;
 					}
-					else
+					else if (cgender == 2)
 					{
-						if (cgender == 2)
-						{
-							setSkillPaint(GameScr.sks[skillTemplateId], flag ? 1 : 0);
-							Res.outz("<*> 10 xay da xong 111   " + skillTemplateId);
-						}
-						if (cgender == 1)
-						{
-							setSkillPaint(GameScr.sks[skillTemplateId], flag ? 1 : 0);
-							Res.outz("<*> 10 C_NAMEC xong 222   " + skillTemplateId);
-						}
-						if (cgender == 0)
-						{
-							setSkillPaint(GameScr.sks[skillTemplateId], flag ? 1 : 0);
-							Res.outz("<*> 10  C_TRAIDAT xong 333   " + skillTemplateId);
-						}
-						skillId = skillTemplateId;
+						setAutoSkillPaint(GameScr.sks[skillTemplateId], flag ? 1 : 0);
 					}
-					if (cgender == 2 && statusMe != 14 && statusMe != 5 && (skillId < 77 || skillId > 83))
+					if (cgender == 2 && statusMe != 14 && statusMe != 5)
 					{
 						GameScr.gI().activeSuperPower(cx, cy);
 					}
-					Res.outz("<*> 11 Hoàn thành skill not focus -  STAND");
 				}
 				chargeCount++;
 				if (chargeCount == 500)
@@ -2217,39 +2143,25 @@ public class Char : IMapObject
 					cur = mSystem.currentTimeMillis();
 					if (cur - last > seconds || cur - last > 10000)
 					{
-						Res.outz("<*> 12 kết thúc skill  qua cau kinh khi \tFLY " + cName);
 						isFlyAndCharge = false;
 						if (me)
 						{
 							isCreateDark = true;
 							bool flag2 = TileMap.tileTypeAt(myCharz().cx, myCharz().cy, 2);
 							isUseSkillAfterCharge = true;
-							setSkillPaint(GameScr.sks[myCharz().myskill.skillId], (!flag2) ? 1 : 0);
+							myCharz().setSkillPaint(GameScr.sks[myCharz().myskill.skillId], (!flag2) ? 1 : 0);
 						}
-						else if (TileMap.mapID == 170)
-						{
-							isCreateDark = true;
-							isUseSkillAfterCharge = true;
-							bool flag3 = TileMap.tileTypeAt(cx, cy, 2);
-							setSkillPaint(GameScr.sks[skillTemplateId], (!flag3) ? 1 : 0);
-						}
+						return;
 					}
-					else
+					cf = 32;
+					if (cgender == 0 && GameCanvas.gameTick % 3 == 0)
 					{
-						cf = 32;
-						if (cgender == 0 && GameCanvas.gameTick % 3 == 0)
-						{
-							ServerEffect.addServerEffect(153, cx, cy - ch, 2);
-						}
-						if (TileMap.mapID == 170 && (cgender == 2 || cgender == 1) && GameCanvas.gameTick % 3 == 0)
-						{
-							ServerEffect.addServerEffect(153, cx, cy - ch, 2);
-						}
-						chargeCount++;
-						if (chargeCount == 500)
-						{
-							stopUseChargeSkill();
-						}
+						ServerEffect.addServerEffect(153, cx, cy - ch, 2);
+					}
+					chargeCount++;
+					if (chargeCount == 500)
+					{
+						stopUseChargeSkill();
 					}
 				}
 				else
@@ -2392,7 +2304,7 @@ public class Char : IMapObject
 							cHP -= cHPFull * 3 / 100;
 							if (cHP < 1)
 							{
-								cHP = 1L;
+								cHP = 1;
 							}
 						}
 					}
@@ -2439,7 +2351,7 @@ public class Char : IMapObject
 						cx = TileMap.pxw - 10;
 						cvx = 0;
 					}
-					if (!ischangingMap && isInWaypoint())
+					if (me && !ischangingMap && isInWaypoint())
 					{
 						Service.gI().charMove();
 						if (TileMap.isTrainingMap())
@@ -2501,18 +2413,18 @@ public class Char : IMapObject
 								{
 									if (currentMovePoint.yEnd > cy)
 									{
-										bool flag4 = false;
+										bool flag3 = false;
 										sbyte b = 1;
 										b = (sbyte)((cdir == 1) ? 1 : (-1));
 										for (int j = 0; j < 2; j++)
 										{
 											if (TileMap.tileTypeAt(currentMovePoint.xEnd + chw * b, cy + chh * j, 2))
 											{
-												flag4 = true;
+												flag3 = true;
 												break;
 											}
 										}
-										if (flag4)
+										if (flag3)
 										{
 											currentMovePoint = null;
 											GameScr.instance.clickMoving = false;
@@ -2623,7 +2535,7 @@ public class Char : IMapObject
 					checkHideCharName();
 					if (statusMe == 1 || statusMe == 6)
 					{
-						bool flag5 = false;
+						bool flag4 = false;
 						if (currentMovePoint != null)
 						{
 							if (abs(currentMovePoint.xEnd - cx) < 17 && abs(currentMovePoint.yEnd - cy) < 25)
@@ -2644,11 +2556,11 @@ public class Char : IMapObject
 									cvy = 0;
 									cp1 = 0;
 								}
-								flag5 = true;
+								flag4 = true;
 							}
 							else if ((statusBeforeNothing == 10 || cf == 8) && vMovePoints.size() > 0)
 							{
-								flag5 = true;
+								flag4 = true;
 							}
 							else if (cy == currentMovePoint.yEnd)
 							{
@@ -2687,9 +2599,9 @@ public class Char : IMapObject
 						}
 						else
 						{
-							flag5 = true;
+							flag4 = true;
 						}
-						if (flag5 && vMovePoints.size() > 0)
+						if (flag4 && vMovePoints.size() > 0)
 						{
 							currentMovePoint = (MovePoint)vMovePoints.firstElement();
 							vMovePoints.removeElementAt(0);
@@ -3741,13 +3653,14 @@ public class Char : IMapObject
 
 	public void updateSuperEff()
 	{
-		if (isCopy || isFusion || isSetPos || isPet || isMiniPet || isMonkey == 1)
+		return;
+		if (GameCanvas.panel.isShow || isCopy || isFusion || isSetPos || isPet || isMiniPet || isMonkey == 1)
 		{
 			return;
 		}
 		if (me)
 		{
-			if (!isPaintAura2 && idAuraEff > -1)
+			if (!isPaintAura && idAuraEff > -1)
 			{
 				return;
 			}
@@ -3774,22 +3687,14 @@ public class Char : IMapObject
 		int num = 0;
 		if (cgender == 0)
 		{
-			if (clevel >= 13)
+			if (GameCanvas.gameTick % 25 == 0)
 			{
-				if (GameCanvas.gameTick % 25 == 0)
-				{
-					num = 114;
-					ServerEffect.addServerEffect(num, this, 1);
-				}
-				if (GameCanvas.gameTick % 4 == 0)
-				{
-					num = 132;
-					ServerEffect.addServerEffect(num, this, 1);
-				}
+				num = 114;
+				ServerEffect.addServerEffect(num, this, 1);
 			}
-			else if (GameCanvas.gameTick % 25 == 0)
+			if (clevel >= 13 && GameCanvas.gameTick % 4 == 0)
 			{
-				num = 173 + (clevel - 10);
+				num = 132;
 				ServerEffect.addServerEffect(num, this, 1);
 			}
 		}
@@ -3837,7 +3742,7 @@ public class Char : IMapObject
 
 	public void updateCharRun()
 	{
-		int num = ((isMonkey != 1 || me) ? 1 : 1);
+		int num = ((isMonkey != 1 || me) ? 1 : 2);
 		if (cx >= GameScr.cmx && cx <= GameScr.cmx + GameCanvas.w)
 		{
 			if (isMonkey == 0)
@@ -4277,7 +4182,6 @@ public class Char : IMapObject
 				GameCanvas.gI().startDust(-1, cx - -8, cy);
 				GameCanvas.gI().startDust(1, cx - 8, cy);
 				addDustEff(1);
-				currentMovePoint = null;
 			}
 			return;
 		}
@@ -4296,8 +4200,6 @@ public class Char : IMapObject
 		if (currentMovePoint != null && cy > currentMovePoint.yEnd)
 		{
 			stop();
-			cy = TileMap.tileXofPixel(cy + 3);
-			currentMovePoint = null;
 		}
 	}
 
@@ -4319,82 +4221,67 @@ public class Char : IMapObject
 			return;
 		}
 		int num2 = cy;
-		if (isHead_Fly(head))
+		cp1++;
+		if (cp1 >= 9)
 		{
-			if (GameCanvas.gameTick % 3 == 0)
+			cp1 = 0;
+			if (!me)
 			{
-				cp1++;
+				cvx = (cvy = 0);
 			}
-			if (cp1 > 4)
-			{
-				cp1 = 0;
-			}
-			cf = cp1 + 2;
+			cBonusSpeed = 0;
 		}
-		else
+		cf = 8;
+		if (Res.abs(cvx) <= 4 && me)
 		{
-			cp1++;
-			if (cp1 >= 9)
+			if (currentMovePoint != null)
 			{
-				cp1 = 0;
-				if (!me)
+				int num3 = abs(cx - currentMovePoint.xEnd);
+				int num4 = abs(cy - currentMovePoint.yEnd);
+				if (num3 > num4 * 10)
 				{
-					cvx = (cvy = 0);
+					cf = 8;
 				}
-				cBonusSpeed = 0;
-			}
-			cf = 8;
-			if (Res.abs(cvx) <= 4 && me)
-			{
-				if (currentMovePoint != null)
+				else if (num3 > num4 && num3 > 48 && num4 > 32)
 				{
-					int num3 = abs(cx - currentMovePoint.xEnd);
-					int num4 = abs(cy - currentMovePoint.yEnd);
-					if (num3 > num4 * 10)
-					{
-						cf = 8;
-					}
-					else if (num3 > num4 && num3 > 48 && num4 > 32)
-					{
-						cf = 8;
-					}
-					else
-					{
-						cf = 7;
-					}
+					cf = 8;
 				}
 				else
 				{
-					if (cvy < 0)
-					{
-						cvy = 0;
-					}
-					if (cvy > 16)
-					{
-						cvy = 16;
-					}
 					cf = 7;
 				}
 			}
-			if (!me)
+			else
 			{
-				if (abs(cvx) < 2)
+				if (cvy < 0)
 				{
-					cvx = (cdir << 1) * num;
+					cvy = 0;
 				}
-				if (cvy != 0)
+				if (cvy > 16)
 				{
-					cf = 7;
+					cvy = 16;
 				}
-				if (abs(cvx) <= 2)
+				cf = 7;
+			}
+		}
+		if (!me)
+		{
+			if (abs(cvx) < 2)
+			{
+				cvx = (cdir << 1) * num;
+			}
+			if (cvy != 0)
+			{
+				cf = 7;
+			}
+			if (abs(cvx) <= 2)
+			{
+				cp2++;
+				if (cp2 > 32)
 				{
-					cp2++;
-					if (cp2 > 32)
-					{
-						statusMe = 4;
-						cvx = 0;
-						cvy = 0;
-					}
+					statusMe = 4;
+					cvx = 0;
+					cvy = 0;
 				}
 			}
 		}
@@ -4474,21 +4361,6 @@ public class Char : IMapObject
 		{
 			Service.gI().charMove();
 		}
-	}
-
-	private bool isHead_Fly(int head2)
-	{
-		if (Arr_Head_FlyMove.Length > 0)
-		{
-			for (int i = 0; i < Arr_Head_FlyMove.Length; i++)
-			{
-				if (Arr_Head_FlyMove[i] == head2)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public void setMount(int cid, int ctrans, int cgender)
@@ -5104,7 +4976,7 @@ public class Char : IMapObject
 			myskill.lastTimeUseThisSkill = num;
 			if (myskill.template.manaUseType == 2)
 			{
-				cMP = 1L;
+				cMP = 1;
 			}
 			else if (myskill.template.manaUseType != 1)
 			{
@@ -5116,22 +4988,14 @@ public class Char : IMapObject
 			}
 			myCharz().cStamina--;
 			GameScr.gI().isInjureMp = true;
-			GameScr.gI().twMp = 0L;
+			GameScr.gI().twMp = 0;
 			if (cMP < 0)
 			{
-				cMP = 0L;
+				cMP = 0;
 			}
 		}
 		if (me)
 		{
-			if (myskill.template.id == 10)
-			{
-				Service.gI().skill_not_focus(4);
-			}
-			if (myskill.template.id == 11)
-			{
-				Service.gI().skill_not_focus(4);
-			}
 			if (myskill.template.id == 7)
 			{
 				SoundMn.gI().hoisinh();
@@ -5290,16 +5154,8 @@ public class Char : IMapObject
 				{
 					Service.gI().skill_not_focus(4);
 				}
-				if (TileMap.mapID == 170 && cgender != 1)
-				{
-					Service.gI().skill_not_focus(4);
-				}
 			}
 			if (cgender == 1)
-			{
-				SoundMn.gI().gongName();
-			}
-			if (TileMap.mapID == 170 && cgender != 1)
 			{
 				SoundMn.gI().gongName();
 			}
@@ -5557,7 +5413,8 @@ public class Char : IMapObject
 
 	public void createShadow(int x, int y, int life)
 	{
-		shadowX = x;
+        return;
+        shadowX = x;
 		shadowY = y;
 		shadowLife = life;
 	}
@@ -5569,7 +5426,9 @@ public class Char : IMapObject
 
 	public virtual void paint(mGraphics g)
 	{
-		if (isHide)
+		CustomGraphics.paintCharSquare(g, this);
+		return;
+        if (isHide)
 		{
 			return;
 		}
@@ -5714,7 +5573,7 @@ public class Char : IMapObject
 			{
 				g.drawRegion(GameScr.arrow, 0, 0, 13, 16, arg, x, y, StaticObj.VCENTER_HCENTER);
 			}
-			else if (Res.abs(cx - x_hint) < 50)
+			else
 			{
 				g.drawImage(Panel.imgBantay, x_hint + num, y_hint - 60 + num2, 0);
 			}
@@ -5723,7 +5582,8 @@ public class Char : IMapObject
 
 	private void paintEff_Pet(mGraphics g)
 	{
-		for (int i = 0; i < vEffChar.size(); i++)
+        return;
+        for (int i = 0; i < vEffChar.size(); i++)
 		{
 			Effect effect = (Effect)vEffChar.elementAt(i);
 			if (effect.effId >= 201)
@@ -5735,7 +5595,19 @@ public class Char : IMapObject
 
 	private void paintSuperEffBehind(mGraphics g)
 	{
-		if ((me && !isPaintAura2) || idAuraEff > -1 || (statusMe != 1 && statusMe != 6) || mSystem.currentTimeMillis() - timeBlue <= 0 || isCopy || clevel < 16)
+		return;
+		if (me)
+		{
+			if (!isPaintAura && idAuraEff > -1)
+			{
+				return;
+			}
+		}
+		else if (idAuraEff > -1)
+		{
+			return;
+		}
+		if (!isPaintAura2 || (statusMe != 1 && statusMe != 6) || GameCanvas.panel.isShow || mSystem.currentTimeMillis() - timeBlue <= 0 || isCopy || clevel < 16)
 		{
 			return;
 		}
@@ -5768,13 +5640,25 @@ public class Char : IMapObject
 
 	private void paintSuperEffFront(mGraphics g)
 	{
+        return;
+        if (me)
+		{
+			if (!isPaintAura && idAuraEff > -1)
+			{
+				return;
+			}
+		}
+		else if (idAuraEff > -1)
+		{
+			return;
+		}
 		if (!isPaintAura2)
 		{
 			return;
 		}
 		if (statusMe == 1 || statusMe == 6)
 		{
-			if (mSystem.currentTimeMillis() - timeBlue <= 0)
+			if (GameCanvas.panel.isShow || mSystem.currentTimeMillis() - timeBlue <= 0)
 			{
 				return;
 			}
@@ -5918,7 +5802,7 @@ public class Char : IMapObject
 
 	public void paintHp(mGraphics g, int x, int y)
 	{
-		int num = (int)((int)cHP * 100 / cHPFull) / 10 - 1;
+		int num = cHP * 100 / cHPFull / 10 - 1;
 		if (num < 0)
 		{
 			num = 0;
@@ -5929,14 +5813,14 @@ public class Char : IMapObject
 		}
 		if (!me)
 		{
-			g.drawRegion(Mob.imgHP, 0, 6 * (9 - num), 9, 6, 0, x, y - mFont.tahoma_7.getHeight() - 6, 3);
+			g.drawRegion(Mob.imgHP, 0, 6 * (9 - num), 9, 6, 0, x, y, 3);
 		}
 		if (cTypePk == 0 && (myCharz().cFlag == 0 || cFlag == 0 || (cFlag != 8 && myCharz().cFlag != 8 && cFlag == myCharz().cFlag)))
 		{
 			return;
 		}
-		len = (int)(cHP * 100 / cHPFull * w_hp_bar) / 100;
-		num = (int)(cHP * 100 / cHPFull);
+		len = (int)((long)cHP * 100L / cHPFull * w_hp_bar) / 100;
+		num = (int)((long)cHP * 100L / cHPFull);
 		if (num < 30)
 		{
 			imgHPtem = GameScr.imgHP_tm_do;
@@ -5949,8 +5833,8 @@ public class Char : IMapObject
 		{
 			imgHPtem = GameScr.imgHP_tm_xanh;
 		}
-		int imageWidth = mGraphics.getImageWidth(GameScr.imgHP_tm_xam);
-		int imageHeight = mGraphics.getImageHeight(GameScr.imgHP_tm_xam);
+		int imageWidth = mGraphics.getImageWidth(GameScr.imgHP_tm_do);
+		int imageHeight = mGraphics.getImageHeight(GameScr.imgHP_tm_do);
 		int w = imageWidth * num / 100;
 		g.drawImage(GameScr.imgHP_tm_xam, x - (imageWidth >> 1), y - 1, mGraphics.TOP | mGraphics.LEFT);
 		if (len < 5)
@@ -6077,20 +5961,13 @@ public class Char : IMapObject
 		{
 			mFont2 = mFont.nameFontGreen;
 		}
-		if (TileMap.mapID == 170)
-		{
-			if (flagImage == 2325)
-			{
-				mFont2 = mFont.tahoma_7_blue;
-			}
-			else if (flagImage == 2323)
-			{
-				mFont2 = mFont.tahoma_7_red;
-			}
-		}
 		if ((paintName || flag2 || flag3) && !flag)
 		{
 			if (mSystem.clientType == 1)
+			{
+				mFont2.drawString(g, cName, cx, cy - num, mFont.CENTER, mFont.tahoma_7_greySmall);
+			}
+			else if (charID == -83)
 			{
 				mFont2.drawString(g, cName, cx, cy - num, mFont.CENTER, mFont.tahoma_7_greySmall);
 			}
@@ -6116,6 +5993,7 @@ public class Char : IMapObject
 
 	public void paintShadow(mGraphics g)
 	{
+		return;
 		if (isMabuHold || head == 377 || leg == 471 || isTeleport || isFlyUp)
 		{
 			return;
@@ -6142,6 +6020,7 @@ public class Char : IMapObject
 
 	public void updateShadown()
 	{
+		return;
 		int num = 0;
 		xSd = cx;
 		if (TileMap.tileTypeAt(cx, cy, 2))
@@ -6364,7 +6243,7 @@ public class Char : IMapObject
 			if (!ClanImage.idImages.containsKey(bag + string.Empty))
 			{
 				ClanImage.idImages.put(bag + string.Empty, new ClanImage());
-				Service.gI().requestBagImage(bag);
+				Service.gI().requestBagImage((sbyte)bag);
 			}
 			else
 			{
@@ -6397,10 +6276,6 @@ public class Char : IMapObject
 			{
 				num3 = 15;
 			}
-			if (head == 1291)
-			{
-				num3 = 23;
-			}
 			SmallImage.drawSmallImage(g, 834, cx, cy - CharInfo[cf][2][2] + pb.pi[CharInfo[cf][2][0]].dy - 2 + num3, num, StaticObj.TOP_CENTER);
 			SmallImage.drawSmallImage(g, 79, cx, cy - ch - 8, 0, mGraphics.HCENTER | mGraphics.BOTTOM);
 			SmallImage.drawSmallImage(g, ph.pi[CharInfo[cf][0][0]].id, cx + (CharInfo[cf][0][1] + ph.pi[CharInfo[cf][0][0]].dx) * num2, cy - CharInfo[cf][0][2] + ph.pi[CharInfo[cf][0][0]].dy, num, anchor);
@@ -6420,25 +6295,18 @@ public class Char : IMapObject
 		else
 		{
 			paintHat_behind(g, cf, cy - CharInfo[cf][2][2] + pb.pi[CharInfo[cf][2][0]].dy);
-			try
+			if (isHead_2Fr(head))
 			{
-				if (isHead_2Fr(head))
-				{
-					Part part2 = GameScr.parts[getFHead(head)];
-					SmallImage.drawSmallImage(g, part2.pi[CharInfo[cf][0][0]].id, cx + (CharInfo[cf][0][1] + part2.pi[CharInfo[cf][0][0]].dx) * num2, cy - CharInfo[cf][0][2] + part2.pi[CharInfo[cf][0][0]].dy, num, anchor);
-				}
-				else
-				{
-					SmallImage.drawSmallImage(g, ph.pi[CharInfo[cf][0][0]].id, cx + (CharInfo[cf][0][1] + ph.pi[CharInfo[cf][0][0]].dx) * num2, cy - CharInfo[cf][0][2] + ph.pi[CharInfo[cf][0][0]].dy, num, anchor);
-				}
-				SmallImage.drawSmallImage(g, pl.pi[CharInfo[cf][1][0]].id, cx + (CharInfo[cf][1][1] + pl.pi[CharInfo[cf][1][0]].dx) * num2, cy - CharInfo[cf][1][2] + pl.pi[CharInfo[cf][1][0]].dy, num, anchor);
-				SmallImage.drawSmallImage(g, pb.pi[CharInfo[cf][2][0]].id, cx + (CharInfo[cf][2][1] + pb.pi[CharInfo[cf][2][0]].dx) * num2, cy - CharInfo[cf][2][2] + pb.pi[CharInfo[cf][2][0]].dy, num, anchor);
-				paintRedEye(g, cx + (CharInfo[cf][0][1] + ph.pi[CharInfo[cf][0][0]].dx) * num2, cy - CharInfo[cf][0][2] + ph.pi[CharInfo[cf][0][0]].dy, num, anchor);
+				Part part2 = GameScr.parts[getFHead(head)];
+				SmallImage.drawSmallImage(g, part2.pi[CharInfo[cf][0][0]].id, cx + (CharInfo[cf][0][1] + part2.pi[CharInfo[cf][0][0]].dx) * num2, cy - CharInfo[cf][0][2] + part2.pi[CharInfo[cf][0][0]].dy, num, anchor);
 			}
-			catch (Exception ex)
+			else
 			{
-				Debug.LogError(">>>>>>err: " + ex.ToString());
+				SmallImage.drawSmallImage(g, ph.pi[CharInfo[cf][0][0]].id, cx + (CharInfo[cf][0][1] + ph.pi[CharInfo[cf][0][0]].dx) * num2, cy - CharInfo[cf][0][2] + ph.pi[CharInfo[cf][0][0]].dy, num, anchor);
 			}
+			SmallImage.drawSmallImage(g, pl.pi[CharInfo[cf][1][0]].id, cx + (CharInfo[cf][1][1] + pl.pi[CharInfo[cf][1][0]].dx) * num2, cy - CharInfo[cf][1][2] + pl.pi[CharInfo[cf][1][0]].dy, num, anchor);
+			SmallImage.drawSmallImage(g, pb.pi[CharInfo[cf][2][0]].id, cx + (CharInfo[cf][2][1] + pb.pi[CharInfo[cf][2][0]].dx) * num2, cy - CharInfo[cf][2][2] + pb.pi[CharInfo[cf][2][0]].dy, num, anchor);
+			paintRedEye(g, cx + (CharInfo[cf][0][1] + ph.pi[CharInfo[cf][0][0]].dx) * num2, cy - CharInfo[cf][0][2] + ph.pi[CharInfo[cf][0][0]].dy, num, anchor);
 		}
 		ch = ((isMonkey != 1 && !isFusion) ? (CharInfo[0][0][2] + ph.pi[CharInfo[0][0][0]].dy + 10) : 60);
 		int num4 = ((Res.abs(ph.pi[CharInfo[cf][0][0]].dy) < 22) ? ph.pi[CharInfo[cf][0][0]].dy : ((ph.pi[CharInfo[cf][0][0]].dy >= 0) ? (ph.pi[CharInfo[cf][0][0]].dy - 5) : (ph.pi[CharInfo[cf][0][0]].dy + 5)));
@@ -6663,7 +6531,7 @@ public class Char : IMapObject
 		cp3 = 0;
 	}
 
-	public static void getcharInjure(int cID, int dx, int dy, long HP)
+	public static void getcharInjure(int cID, int dx, int dy, int HP)
 	{
 		Char obj = (Char)GameScr.vCharInMap.elementAt(cID);
 		if (obj.vMovePoints.size() != 0)
@@ -6675,7 +6543,7 @@ public class Char : IMapObject
 			obj2.cHP -= HP;
 			if (obj2.cHP < 0)
 			{
-				obj2.cHP = 0L;
+				obj2.cHP = 0;
 			}
 			obj2.cHPShow = ((Char)GameScr.vCharInMap.elementAt(cID)).cHP - HP;
 			obj2.statusMe = 6;
@@ -7311,7 +7179,7 @@ public class Char : IMapObject
 		}
 	}
 
-	public void doInjure(long HPShow, long MPShow, bool isCrit, bool isMob)
+	public void doInjure(int HPShow, int MPShow, bool isCrit, bool isMob)
 	{
 		this.isCrit = isCrit;
 		this.isMob = isMob;
@@ -7319,16 +7187,16 @@ public class Char : IMapObject
 		cHP -= HPShow;
 		cMP -= MPShow;
 		GameScr.gI().isInjureHp = true;
-		GameScr.gI().twHp = 0L;
+		GameScr.gI().twHp = 0;
 		GameScr.gI().isInjureMp = true;
-		GameScr.gI().twMp = 0L;
+		GameScr.gI().twMp = 0;
 		if (cHP < 0)
 		{
-			cHP = 0L;
+			cHP = 0;
 		}
 		if (cMP < 0)
 		{
-			cMP = 0L;
+			cMP = 0;
 		}
 		if (isMob || (!isMob && cTypePk != 4 && damMP != -100))
 		{
@@ -7364,9 +7232,9 @@ public class Char : IMapObject
 	public void doInjure()
 	{
 		GameScr.gI().isInjureHp = true;
-		GameScr.gI().twHp = 0L;
+		GameScr.gI().twHp = 0;
 		GameScr.gI().isInjureMp = true;
-		GameScr.gI().twMp = 0L;
+		GameScr.gI().twMp = 0;
 		isInjure = 6;
 		ServerEffect.addServerEffect(8, this, 1);
 		isInjureHp = true;
@@ -7402,7 +7270,7 @@ public class Char : IMapObject
 		cp2 = toX;
 		cp3 = toY;
 		cp1 = 0;
-		cHP = 0L;
+		cHP = 0;
 		testCharId = -9999;
 		killCharId = -9999;
 		if (me && myskill != null && myskill.template.id != 14)
@@ -7957,7 +7825,7 @@ public class Char : IMapObject
 
 	public void paintAuraBehind(mGraphics g)
 	{
-		if ((!me || isPaintAura) && idAuraEff > -1 && (statusMe == 1 || statusMe == 6) && !GameCanvas.panel.isShow && mSystem.currentTimeMillis() - timeBlue > 0)
+		if ((!me || !isPaintAura) && idAuraEff > -1 && (statusMe == 1 || statusMe == 6) && !GameCanvas.panel.isShow && mSystem.currentTimeMillis() - timeBlue > 0)
 		{
 			string nameImg = strEffAura + idAuraEff + "_0";
 			FrameImage fraImage = mSystem.getFraImage(nameImg);
@@ -8156,7 +8024,7 @@ public class Char : IMapObject
 			myskill.lastTimeUseThisSkill = lastTimeUseThisSkill;
 			if (myskill.template.manaUseType == 2)
 			{
-				cMP = 1L;
+				cMP = 1;
 			}
 			else if (myskill.template.manaUseType != 1)
 			{
@@ -8168,10 +8036,10 @@ public class Char : IMapObject
 			}
 			myCharz().cStamina--;
 			GameScr.gI().isInjureMp = true;
-			GameScr.gI().twMp = 0L;
+			GameScr.gI().twMp = 0;
 			if (cMP < 0)
 			{
-				cMP = 0L;
+				cMP = 0;
 			}
 		}
 		switch (idskillPaint)

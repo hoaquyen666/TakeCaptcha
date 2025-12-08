@@ -60,7 +60,7 @@ public class BachTuoc : Mob, IMapObject
 
 	private Char[] charAttack;
 
-	private long[] dameHP;
+	private int[] dameHP;
 
 	private sbyte type;
 
@@ -106,7 +106,7 @@ public class BachTuoc : Mob, IMapObject
 
 	public new bool sleepEff;
 
-	public BachTuoc(int id, short px, short py, int templateID, long hp, long maxHp, int s)
+	public BachTuoc(int id, short px, short py, int templateID, int hp, int maxHp, int s)
 	{
 		mobId = id;
 		xFirst = (x = px + 20);
@@ -340,7 +340,7 @@ public class BachTuoc : Mob, IMapObject
 		flyUp = true;
 	}
 
-	public void setAttack(Char[] cAttack, long[] dame, sbyte type)
+	public void setAttack(Char[] cAttack, int[] dame, sbyte type)
 	{
 		charAttack = cAttack;
 		dameHP = dame;
@@ -365,7 +365,7 @@ public class BachTuoc : Mob, IMapObject
 			{
 				for (int i = 0; i < charAttack.Length; i++)
 				{
-					charAttack[i].doInjure(dameHP[i], 0L, false, false);
+					charAttack[i].doInjure(dameHP[i], 0, false, false);
 					ServerEffect.addServerEffect(102, charAttack[i].cx, charAttack[i].cy, 1);
 				}
 			}
@@ -384,7 +384,7 @@ public class BachTuoc : Mob, IMapObject
 		{
 			for (int j = 0; j < charAttack.Length; j++)
 			{
-				charAttack[j].doInjure(dameHP[j], 0L, false, false);
+				charAttack[j].doInjure(dameHP[j], 0, false, false);
 				ServerEffect.addServerEffect(102, charAttack[j].cx, charAttack[j].cy, 1);
 			}
 		}
@@ -524,9 +524,9 @@ public class BachTuoc : Mob, IMapObject
 
 	public new void startDie()
 	{
-		hp = 0L;
+		hp = 0;
 		injureThenDie = true;
-		hp = 0L;
+		hp = 0;
 		status = 1;
 		p1 = -3;
 		p2 = -dir;

@@ -286,11 +286,11 @@ public class TabClanIcon : IActionListener
 				hide();
 				if (Char.myCharz().clan == null)
 				{
-					Service.gI().getClan(2, ((ClanImage)ClanImage.vClanImage.elementAt(lastSelect)).ID, text);
+					Service.gI().getClan(2, (sbyte)((ClanImage)ClanImage.vClanImage.elementAt(lastSelect)).ID, text);
 				}
 				else
 				{
-					Service.gI().getClan(4, ((ClanImage)ClanImage.vClanImage.elementAt(lastSelect)).ID, string.Empty);
+					Service.gI().getClan(4, (sbyte)((ClanImage)ClanImage.vClanImage.elementAt(lastSelect)).ID, string.Empty);
 				}
 			}
 		}

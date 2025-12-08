@@ -29,7 +29,7 @@ public class T1 : mResources
 		mResources.fusionForever = "Hợp thể vĩnh viễn";
 		mResources.fusion = "Hợp thể";
 		mResources.nhanngoc = "Nhận ngọc";
-		mResources.vuilongnhapduthongtin = "Vui lòng nhập đúng số lượng cho phép";
+		mResources.vuilongnhapduthongtin = "Vui lòng nhập đủ thông tin";
 		mResources.choitiep = "Chơi tiếp";
 		mResources.gohome = "Về nhà";
 		mResources.status = "Trạng thái";
@@ -40,7 +40,6 @@ public class T1 : mResources
 		mResources.maychutathoacmatsong = "Máy chủ tắt hoặc mất sóng";
 		mResources.cauhinhthap = "Cấu hình thấp";
 		mResources.cauhinhcao = "Cấu hình cao";
-		mResources.cauhinhthuong = "Cấu hình thường";
 		mResources.taidulieu = "Tải dữ liệu";
 		mResources.xoadulieu = "Xóa dữ liệu";
 		mResources.deletaDataNote = "Bạn cần xóa trong trường hợp có lỗi tải dữ liệu. Khi xóa xong, bạn phải tải lại toàn bộ để có thể chơi.";
@@ -64,7 +63,6 @@ public class T1 : mResources
 		mResources.note = "Bạn sẽ mất tài khoản đang chơi và không thể khôi phục được nếu đổi tài khoản khác, bạn có đồng ý không ?";
 		mResources.REGISTOPROTECT = "Đăng kí để bảo vệ tài khoản";
 		mResources.finishBomong = "Bạn phải hoàn thành nhiệm vụ tìm ngọc 6 sao mới có thể nạp tiền";
-		mResources.charger = "Diễn đàn và Nạp Ngọc";
 		mResources.charger = "Nạp tiền";
 		mResources.notYetSell = "Chưa có vật phẩm rao bán";
 		mResources.getUp = "Kéo lên để cập nhật thêm";
@@ -311,7 +309,7 @@ public class T1 : mResources
 		mResources.go_to_quest = "Hãy đến vị trí chớp nháy trên bản đồ để làm nhiệm vụ";
 		mResources.from_earth = "Dành cho Trái Đất\n";
 		mResources.from_namec = "Dành cho Namếc\n";
-		mResources.from_sayda = "Dành cho Xayda\n";
+		mResources.from_sayda = "Dành cho Sayda\n";
 		mResources.expire = "Hạn dùng";
 		mResources.pow_request = "Sức mạnh yêu cầu";
 		mResources.your_pow = "Sức mạnh của bạn";
@@ -407,7 +405,7 @@ public class T1 : mResources
 		mResources.money_trade = "Số tiền giao dịch";
 		mResources.GETOUT = "Lấy ra";
 		mResources.MOVEOUT = "Bỏ ra";
-		mResources.MOVEFORPET = "Cho đệ tử";
+		mResources.MOVEFORPET = "Sử dụng\ncho\nđệ tử";
 		mResources.GETOUTMONEY = "Rút xu";
 		mResources.GETINMONEY = "Cất xu";
 		mResources.SENDMONEY = "Chuyển xu";
@@ -448,7 +446,7 @@ public class T1 : mResources
 		mResources.want_to_trade = " muốn giao dịch với bạn, bạn có đồng ý không ?";
 		mResources.hasJustUpgrade1 = "Bạn vừa nâng cấp ";
 		mResources.hasJustUpgrade2 = " sang cấp ";
-		mResources.potential_to_learn = "tiềm năng đến Sư phụ để học";
+		mResources.potential_to_learn = "tiềm năng đến Whis học";
 		mResources.potential_point = "Điểm tiềm năng";
 		mResources.achievement_point = "Điểm thành tích";
 		mResources.increase = "tăng";
@@ -465,14 +463,12 @@ public class T1 : mResources
 		mResources.can_buy_from_Uron1 = "Khi có ";
 		mResources.can_buy_from_Uron2 = " tiềm năng, bạn sẽ được nâng cấp miễn phí ";
 		mResources.can_buy_from_Uron3 = ". Ngoài ra bạn có thể mua Bí Kíp từ Urôn để học nhanh";
-		mResources.critdame = "ST Crit";
-		mResources.giamsatthuong = "Giảm ST";
 		mResources.HP = "HP";
 		mResources.KI = "KI";
 		mResources.hit_point = "Sức đánh";
 		mResources.armor = "Giáp";
 		mResources.vitality = "Thể lực";
-		mResources.critical = "Crit";
+		mResources.critical = "Chí mạng";
 		mResources.cap_do = "Cấp độ";
 		mResources.KI_consume = "KI tiêu hao: ";
 		mResources.cooldown = "Hồi chiêu";
@@ -516,7 +512,5 @@ public class T1 : mResources
 		mResources.playNew = "Chơi mới";
 		mResources.playAcc = "Chơi TK";
 		mResources.not_register_yet = "Chưa đăng ký";
-		mResources.countDown_waitingroom = "Vui lòng chờ: ";
-		mResources.potential_to_learn_tuyetKi = "tiềm năng đến Whis để học";
 	}
 }

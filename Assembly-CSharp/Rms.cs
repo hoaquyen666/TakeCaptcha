@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using UnityEngine;
@@ -167,10 +167,6 @@ public class Rms
 		try
 		{
 			saveRMS(file, new sbyte[1] { (sbyte)x });
-			if (file == ServerListScreen.RMS_svselect)
-			{
-				Debug.LogError(">>>>>>>>Save saveRMSInt: " + file + "  index:" + x);
-			}
 		}
 		catch (Exception)
 		{
@@ -179,24 +175,13 @@ public class Rms
 
 	public static string GetiPhoneDocumentsPath()
 	{
-        //return Application.persistentDataPath;
-        try
-        {
-            string path = "RMS";
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-				return path;
-            }
-
-            return path;
-			//return Application.persistentDataPath;
+		//return Application.persistentDataPath;
+		string path = "RMS";
+		if (!Directory.Exists(path))
+		{
+			Directory.CreateDirectory(path);
         }
-        catch (Exception)
-        {
-            return "";
-        }
+		return path;
     }
 
 	private static void __saveRMS(string filename, sbyte[] data)

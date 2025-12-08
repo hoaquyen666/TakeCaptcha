@@ -114,8 +114,6 @@ public class Effect
 
 	public static MyVector newEff = new MyVector();
 
-	public static MyVector dowloadEff = new MyVector();
-
 	private int[] khangia1 = new int[10] { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 };
 
 	private int[] khangia2 = new int[10] { 2, 2, 2, 2, 2, 3, 3, 3, 3, 3 };
@@ -262,6 +260,13 @@ public class Effect
 	public static void addEffData(EffectData eff)
 	{
 		vEffData.addElement(eff);
+		if (TileMap.mapID != 130 && vEffData.size() > 10)
+		{
+			for (int i = 0; i < 5; i++)
+			{
+				vEffData.removeElementAt(0);
+			}
+		}
 	}
 
 	public static EffectData getEffDataById(int id)

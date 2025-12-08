@@ -635,7 +635,7 @@ public class Service
 		}
 	}
 
-	public void getClan(sbyte action, int id, string text)
+	public void getClan(sbyte action, sbyte id, string text)
 	{
 		Message message = null;
 		try
@@ -644,7 +644,7 @@ public class Service
 			message.writer().writeByte(action);
 			if (action == 2 || action == 4)
 			{
-				message.writer().writeShort((short)id);
+				message.writer().writeByte(id);
 				message.writer().writeUTF(text);
 			}
 			session.sendMessage(message);
@@ -751,7 +751,6 @@ public class Service
 		}
 		try
 		{
-			Res.outz(">>send ClientType1");
 			Message message = messageNotLogin(2);
 			message.writer().writeByte(Main.typeClient);
 			message.writer().writeByte(mGraphics.zoomLevel);
@@ -770,6 +769,7 @@ public class Service
 				{
 					message.writer().writeShort(data.Length);
 					message.writer().write(data);
+					Res.err("write " + data.Length + "|" + GameMidlet.VERSION);
 				}
 			}
 			session.sendMessage(message);
@@ -790,7 +790,7 @@ public class Service
 		}
 		try
 		{
-			Res.outz(">>send ClientType2");
+			Res.outz("setType");
 			Message message = messageNotLogin(2);
 			message.writer().writeByte(mSystem.clientType);
 			message.writer().writeByte(mGraphics.zoomLevel);
@@ -810,6 +810,7 @@ public class Service
 				{
 					message.writer().writeShort(data.Length);
 					message.writer().write(data);
+					Res.err("write " + data.Length + "|" + GameMidlet.VERSION);
 				}
 			}
 			session = Session_ME2.gI();
@@ -861,7 +862,6 @@ public class Service
 
 	public void login(string username, string pass, string version, sbyte type)
 	{
-		Res.outz("Login " + username + " " + pass + " " + version);
 		try
 		{
 			Message message = messageNotLogin(0);
@@ -966,6 +966,19 @@ public class Service
 			if (TileMap.tileTypeAt(Char.myCharz().cx / TileMap.size, Char.myCharz().cy / TileMap.size) == 0)
 			{
 				message.writer().writeByte((sbyte)1);
+				if (Char.myCharz().canFly)
+				{
+					if (!Char.myCharz().isHaveMount)
+					{
+						Char.myCharz().cMP -= Char.myCharz().cMPGoc / 100 * ((Char.myCharz().isMonkey != 1) ? 1 : 2);
+					}
+					if (Char.myCharz().cMP < 0)
+					{
+						Char.myCharz().cMP = 0;
+					}
+					GameScr.gI().isInjureMp = true;
+					GameScr.gI().twMp = 0;
+				}
 			}
 			else
 			{
@@ -1028,7 +1041,26 @@ public class Service
 		try
 		{
 			message = new Message((sbyte)11);
-			message.writer().writeShort(modTemplateId);
+			message.writer().writeByte(modTemplateId);
+			session.sendMessage(message);
+		}
+		catch (Exception ex)
+		{
+			Cout.println(ex.Message + ex.StackTrace);
+		}
+		finally
+		{
+			message.cleanup();
+		}
+	}
+
+	public void requestNpcTemplate(int npcTemplateId)
+	{
+		Message message = null;
+		try
+		{
+			message = messageNotMap(12);
+			message.writer().writeByte(npcTemplateId);
 			session.sendMessage(message);
 		}
 		catch (Exception ex)
@@ -2236,6 +2268,7 @@ public class Service
 		Message message = null;
 		try
 		{
+			Res.outz("REQUEST ICON " + id);
 			message = new Message((sbyte)(-67));
 			message.writer().writeInt(id);
 			if (Session_ME2.gI().isConnected() && !Session_ME2.connecting)
@@ -2247,7 +2280,6 @@ public class Service
 				session = Session_ME.gI();
 			}
 			session.sendMessage(message);
-			Res.outz(">>>>>>>>>>>>>REQUEST ICON " + id + "  isConnected:" + Controller.isGet_CLIENT_INFO);
 			session = Session_ME.gI();
 		}
 		catch (Exception ex)
@@ -2516,13 +2548,13 @@ public class Service
 		}
 	}
 
-	public void requestBagImage(int ID)
+	public void requestBagImage(sbyte ID)
 	{
 		Message message = null;
 		try
 		{
 			message = new Message((sbyte)(-63));
-			message.writer().writeShort(ID);
+			message.writer().writeByte(ID);
 			session.sendMessage(message);
 		}
 		catch (Exception ex)
@@ -2575,7 +2607,7 @@ public class Service
 
 	public void login2(string user)
 	{
-		Res.outz("Login 2:  " + user);
+		Res.outz("Login 2");
 		Message message = null;
 		try
 		{
@@ -3199,50 +3231,6 @@ public class Service
 		catch (Exception ex)
 		{
 			Cout.println(ex.Message + ex.StackTrace);
-		}
-		finally
-		{
-			message.cleanup();
-		}
-	}
-
-	public void sendCT_ready(sbyte sub, sbyte sub_sub)
-	{
-		Message message = null;
-		try
-		{
-			message = new Message((sbyte)24);
-			message.writer().writeByte(sub);
-			message.writer().writeByte(sub_sub);
-			Res.err(" =====> SEND OPTION_HAT " + sub + "_" + sub_sub);
-			session.sendMessage(message);
-		}
-		catch (Exception)
-		{
-		}
-		finally
-		{
-			message.cleanup();
-		}
-	}
-
-	public void sendCmdExtra(sbyte sub, string user, string pass)
-	{
-		Message message = new Message((sbyte)24);
-		try
-		{
-			message.writer().writeByte(sub);
-			if (sub == sbyte.MaxValue)
-			{
-				message.writer().writeUTF(user);
-				message.writer().writeUTF(pass);
-				Controller.isEXTRA_LINK = false;
-				Res.err(" =====> SEND EXTRA_LINK " + sub + " user:" + user + " pass:" + pass);
-			}
-			session.sendMessage(message);
-		}
-		catch (Exception)
-		{
 		}
 		finally
 		{

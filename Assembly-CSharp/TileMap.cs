@@ -1,3 +1,4 @@
+using Assets.Scripts.Assembly_CSharp.Mod;
 using System;
 
 public class TileMap
@@ -329,6 +330,7 @@ public class TileMap
 
 	public static void loadTileImage()
 	{
+		return;
 		if (imgWaterfall == null)
 		{
 			imgWaterfall = GameCanvas.loadImageRMS("/tWater/wtf.png");
@@ -548,7 +550,9 @@ public class TileMap
 		{
 			return;
 		}
-		GameScr.gI().paintBgItem(g, 1);
+		CustomGraphics.paintGridTerrain(g);
+			return;
+        GameScr.gI().paintBgItem(g, 1);
 		for (int i = 0; i < GameScr.vItemMap.size(); i++)
 		{
 			((ItemMap)GameScr.vItemMap.elementAt(i)).paintAuraItemEff(g);

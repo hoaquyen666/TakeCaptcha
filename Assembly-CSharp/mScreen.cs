@@ -29,7 +29,7 @@ public class mScreen
 			GameCanvas.currentScreen.unLoad();
 		}
 		GameCanvas.currentScreen = this;
-		Cout.LogError3(">>>>>>>>>>cur Screen: " + GameCanvas.currentScreen);
+		Cout.LogError3("cur Screen: " + GameCanvas.currentScreen);
 	}
 
 	public virtual void unLoad()

@@ -1,4 +1,5 @@
 using Assets.Scripts.Assembly_CSharp.Collector;
+using System.Threading.Tasks;
 
 public class MobCapcha
 {
@@ -38,87 +39,90 @@ public class MobCapcha
 
 	public static bool isAttack;
 
-    public static bool isSaved;
-
-    public static long timeToBackRegister;
+	public static long timeToBackRegister;
+	public static bool isSaved;
 
     public static void init()
 	{
 		imgMob = GameCanvas.loadImage("/mainImage/myTexture2dmobCapcha.png");
 	}
 
-    public static void paint(mGraphics g, int x, int y)
-    {
-        if (!isAttack)
-        {
-            if (GameCanvas.gameTick % 3 == 0)
-            {
-                if (Char.myCharz().cdir == 1)
-                {
-                    cmtoX = x - 20 - GameScr.cmx;
-                }
-                if (Char.myCharz().cdir == -1)
-                {
-                    cmtoX = x + 20 - GameScr.cmx;
-                }
-            }
-            cmtoY = Char.myCharz().cy - 40 - GameScr.cmy;
-        }
-        else
-        {
-            delay++;
-            if (delay == 5)
-            {
-                isAttack = false;
-                delay = 0;
-            }
-            cmtoX = x - GameScr.cmx;
-            cmtoY = y - GameScr.cmy;
-        }
-        if (cmx > x - GameScr.cmx)
-        {
-            dir = -1;
-        }
-        else
-        {
-            dir = 1;
-        }
-        g.drawImage(GameScr.imgCapcha, cmx, cmy - 40, 3);
-        PopUp.paintPopUp(g, cmx - 25, cmy - 70, 50, 20, 16777215, false);
+	public static void paint(mGraphics g, int x, int y)
+	{
+		if (!isAttack)
+		{
+			if (GameCanvas.gameTick % 3 == 0)
+			{
+				if (Char.myCharz().cdir == 1)
+				{
+					cmtoX = x - 20 - GameScr.cmx;
+				}
+				if (Char.myCharz().cdir == -1)
+				{
+					cmtoX = x + 20 - GameScr.cmx;
+				}
+			}
+			cmtoY = Char.myCharz().cy - 40 - GameScr.cmy;
+		}
+		else
+		{
+			delay++;
+			if (delay == 5)
+			{
+				isAttack = false;
+				delay = 0;
+			}
+			cmtoX = x - GameScr.cmx;
+			cmtoY = y - GameScr.cmy;
+		}
+		if (cmx > x - GameScr.cmx)
+		{
+			dir = -1;
+		}
+		else
+		{
+			dir = 1;
+		}
+		g.drawImage(GameScr.imgCapcha, cmx, cmy - 40, 3);
+		PopUp.paintPopUp(g, cmx - 25, cmy - 70, 50, 20, 16777215, false);
         if (GameScr.imgCapcha != null && !isSaved)
         {
             CaptchaCollector.SaveCaptcha(GameScr.imgCapcha);
             isSaved = true;
 
-            timeToBackRegister = mSystem.currentTimeMillis() + 60000;
+            timeToBackRegister = mSystem.currentTimeMillis() + 10000;
         }
         if (isSaved && timeToBackRegister > 0 && mSystem.currentTimeMillis() > timeToBackRegister)
         {
             timeToBackRegister = 0;
+            isSaved = false;
             GameCanvas.loginScr.backToRegister();
+            Session_ME.gI().close();
+            GameCanvas.endDlg();
+            GameCanvas.serverScreen.switchToMe();
+            /*System.Threading.Tasks.Task.Delay(3000).Wait();
+            GameCanvas.serverScreen.perform(3, null);*/
         }
         mFont.tahoma_7b_dark.drawString(g, GameScr.gI().keyInput, cmx, cmy - 65, 2);
-        if (isCreateMob)
-        {
-            isCreateMob = false;
-            EffecMn.addEff(new Effect(18, cmx + GameScr.cmx, cmy + GameScr.cmy, 2, 10, -1));
-        }
-        if (explode)
-        {
-            explode = false;
-            EffecMn.addEff(new Effect(18, cmx + GameScr.cmx, cmy + GameScr.cmy, 2, 10, -1));
-            GameScr.gI().mobCapcha = null;
+		if (isCreateMob)
+		{
+			isCreateMob = false;
+			EffecMn.addEff(new Effect(18, cmx + GameScr.cmx, cmy + GameScr.cmy, 2, 10, -1));
+		}
+		if (explode)
+		{
+			explode = false;
+			EffecMn.addEff(new Effect(18, cmx + GameScr.cmx, cmy + GameScr.cmy, 2, 10, -1));
+			GameScr.gI().mobCapcha = null;
             isSaved = false;
             cmtoX = -GameScr.cmx;
-            cmtoY = -GameScr.cmy;
-        }
-        g.drawRegion(imgMob, 0, f * 40, 40, 40, (dir != 1) ? 2 : 0, cmx, cmy + 3 + ((GameCanvas.gameTick % 10 > 5) ? 1 : 0), 3);
-        moveCamera();
-        //System.Threading.Tasks.Task.Delay(3000);
-        //GameCanvas.loginScr.backToRegister();
-    }
+			cmtoY = -GameScr.cmy;
+		}
+		g.drawRegion(imgMob, 0, f * 40, 40, 40, (dir != 1) ? 2 : 0, cmx, cmy + 3 + ((GameCanvas.gameTick % 10 > 5) ? 1 : 0), 3);
+		moveCamera();
+	}
 
-    public static void moveCamera()
+	public static void moveCamera()
 	{
 		if (cmy != cmtoY)
 		{

@@ -1,3 +1,5 @@
+using Assets.Scripts.Assembly_CSharp.Mod;
+
 public class Npc : Char
 {
 	public const sbyte BINH_KHI = 0;
@@ -201,7 +203,9 @@ public class Npc : Char
 		{
 			return;
 		}
-		if (cTypePk != 0)
+		CustomGraphics.paintNPCSquare(g, this);
+		return;
+        if (cTypePk != 0)
 		{
 			base.paint(g);
 		}

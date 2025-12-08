@@ -147,7 +147,9 @@ public class BackgroudEffect
 
 	public BackgroudEffect(int typeS)
 	{
-		isFog = true;
+
+        return;
+        isFog = true;
 		initCloud();
 		typeEff = typeS;
 		switch (typeEff)
@@ -414,6 +416,7 @@ public class BackgroudEffect
 
 	public static bool isHaveRain()
 	{
+		return false;
 		for (int i = 0; i < vBgEffect.size(); i++)
 		{
 			BackgroudEffect backgroudEffect = (BackgroudEffect)vBgEffect.elementAt(i);
@@ -426,8 +429,9 @@ public class BackgroudEffect
 	}
 
 	public static void initCloud()
-	{
-		if (mSystem.clientType == 1)
+    {
+		return;
+        if (mSystem.clientType == 1)
 		{
 			imgCloud1 = null;
 			imgFog = null;
@@ -465,7 +469,9 @@ public class BackgroudEffect
 
 	public static void updateCloud2()
 	{
-		if (mSystem.clientType == 1 || GameCanvas.lowGraphic || nCloud <= 0)
+
+        return;
+        if (mSystem.clientType == 1 || GameCanvas.lowGraphic || nCloud <= 0)
 		{
 			return;
 		}
@@ -483,6 +489,7 @@ public class BackgroudEffect
 
 	public static void updateFog()
 	{
+		return;
 		if (mSystem.clientType != 1 && !GameCanvas.lowGraphic && isFog)
 		{
 			xfog--;
@@ -495,7 +502,8 @@ public class BackgroudEffect
 
 	public static void paintCloud2(mGraphics g)
 	{
-		if (mSystem.clientType == 1 || GameCanvas.lowGraphic || nCloud == 0 || imgCloud1 == null)
+        return;
+        if (mSystem.clientType == 1 || GameCanvas.lowGraphic || nCloud == 0 || imgCloud1 == null)
 		{
 			return;
 		}
@@ -897,10 +905,6 @@ public class BackgroudEffect
 	{
 		int num = ((typeEff != 11) ? 4 : 3);
 		num = ((typeEff != 15) ? 4 : 4);
-		if (typeEff == 11)
-		{
-			PIXEL = 5;
-		}
 		for (int i = 0; i < sum; i++)
 		{
 			if (i % 3 == 0 && x[i] >= GameScr.cmx && x[i] <= GameCanvas.w + GameScr.cmx && y[i] >= GameScr.cmy && y[i] <= GameCanvas.h + GameScr.cmy && img != null)
@@ -914,10 +918,6 @@ public class BackgroudEffect
 	{
 		int num = ((typeEff != 11) ? 4 : 3);
 		num = ((typeEff != 15) ? 4 : 4);
-		if (typeEff == 11)
-		{
-			PIXEL = 5;
-		}
 		for (int i = 0; i < sum; i++)
 		{
 			if (i % 3 != 0 && x[i] >= GameScr.cmx && x[i] <= GameCanvas.w + GameScr.cmx && y[i] >= GameScr.cmy && y[i] <= GameCanvas.h + GameScr.cmy && img != null)

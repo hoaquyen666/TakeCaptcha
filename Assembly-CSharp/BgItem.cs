@@ -137,6 +137,7 @@ public class BgItem
 
 	public void paint(mGraphics g)
 	{
+		return;
 		if (Char.isLoadingMap || (idImage == 279 && GameScr.gI().tMabuEff >= 110))
 		{
 			return;
